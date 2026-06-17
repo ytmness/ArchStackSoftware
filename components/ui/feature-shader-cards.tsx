@@ -1,0 +1,214 @@
+"use client";
+
+import type React from "react";
+import dynamic from "next/dynamic";
+import {
+  Cpu,
+  Layers,
+  Rocket,
+  Shield,
+  Sparkles,
+  Workflow,
+} from "lucide-react";
+import type { Dictionary } from "@/content/dictionaries/es";
+import { cn } from "@/lib/utils";
+
+const Warp = dynamic(
+  () => import("@paper-design/shaders-react").then((m) => m.Warp),
+  { ssr: false, loading: () => <div className="h-full w-full bg-surface" /> }
+);
+
+type Feature = {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  colors: string[];
+  shape: "checks" | "stripes" | "edge";
+  glow: string;
+  ring: string;
+};
+
+function buildFeatures(dict: Dictionary): Feature[] {
+  return [
+    {
+      title: dict.services.pageTitle.split(" ")[0] + " Engineering",
+      description:
+        "Arquitectura y producto alineados desde el día uno. MVPs con criterio técnico, no parches.",
+      icon: (
+        <Layers className="h-10 w-10 text-sky-300 drop-shadow-[0_0_14px_rgba(56,189,248,0.9)]" />
+      ),
+      colors: [
+        "hsl(215, 95%, 22%)",
+        "hsl(200, 100%, 52%)",
+        "hsl(225, 90%, 14%)",
+        "hsl(195, 100%, 68%)",
+      ],
+      shape: "checks",
+      glow: "rgba(56, 189, 248, 0.45)",
+      ring: "rgba(56, 189, 248, 0.35)",
+    },
+    {
+      title: "Platform & APIs",
+      description:
+        "Backends robustos, contratos claros y observabilidad para equipos que necesitan velocidad.",
+      icon: (
+        <Cpu className="h-10 w-10 text-cyan-300 drop-shadow-[0_0_14px_rgba(34,211,238,0.9)]" />
+      ),
+      colors: [
+        "hsl(195, 100%, 20%)",
+        "hsl(185, 100%, 48%)",
+        "hsl(205, 95%, 12%)",
+        "hsl(175, 100%, 62%)",
+      ],
+      shape: "stripes",
+      glow: "rgba(34, 211, 238, 0.42)",
+      ring: "rgba(34, 211, 238, 0.32)",
+    },
+    {
+      title: "AI Layer",
+      description:
+        "IA integrada al sistema: copilotos, clasificación, extracción y workflows automatizados.",
+      icon: (
+        <Sparkles className="h-10 w-10 text-violet-300 drop-shadow-[0_0_16px_rgba(167,139,250,0.95)]" />
+      ),
+      colors: [
+        "hsl(270, 95%, 24%)",
+        "hsl(285, 100%, 58%)",
+        "hsl(255, 90%, 16%)",
+        "hsl(300, 100%, 72%)",
+      ],
+      shape: "checks",
+      glow: "rgba(167, 139, 250, 0.5)",
+      ring: "rgba(192, 132, 252, 0.4)",
+    },
+    {
+      title: "Delivery",
+      description:
+        "CI/CD, despliegue y handoff documentado. Producción con confianza desde la primera release.",
+      icon: (
+        <Rocket className="h-10 w-10 text-amber-300 drop-shadow-[0_0_14px_rgba(251,191,36,0.9)]" />
+      ),
+      colors: [
+        "hsl(32, 100%, 22%)",
+        "hsl(42, 100%, 52%)",
+        "hsl(25, 95%, 14%)",
+        "hsl(48, 100%, 65%)",
+      ],
+      shape: "stripes",
+      glow: "rgba(251, 191, 36, 0.4)",
+      ring: "rgba(251, 191, 36, 0.32)",
+    },
+    {
+      title: "Security & RLS",
+      description:
+        "Auth, permisos y datos modelados con defensa en profundidad desde el diseño.",
+      icon: (
+        <Shield className="h-10 w-10 text-blue-300 drop-shadow-[0_0_14px_rgba(96,165,250,0.9)]" />
+      ),
+      colors: [
+        "hsl(220, 95%, 20%)",
+        "hsl(210, 100%, 48%)",
+        "hsl(235, 90%, 12%)",
+        "hsl(200, 100%, 68%)",
+      ],
+      shape: "checks",
+      glow: "rgba(96, 165, 250, 0.42)",
+      ring: "rgba(59, 130, 246, 0.35)",
+    },
+    {
+      title: "Operations",
+      description:
+        "Monitoreo, escalado y evolución continua del producto y la plataforma.",
+      icon: (
+        <Workflow className="h-10 w-10 text-teal-300 drop-shadow-[0_0_14px_rgba(45,212,191,0.9)]" />
+      ),
+      colors: [
+        "hsl(185, 95%, 18%)",
+        "hsl(175, 100%, 46%)",
+        "hsl(195, 90%, 11%)",
+        "hsl(165, 100%, 62%)",
+      ],
+      shape: "edge",
+      glow: "rgba(45, 212, 191, 0.4)",
+      ring: "rgba(45, 212, 191, 0.32)",
+    },
+  ];
+}
+
+export function FeatureShaderCards({ dict }: { dict: Dictionary }) {
+  const features = buildFeatures(dict);
+
+  return (
+    <section className="border-y border-border pb-20 pt-0 md:pb-28">
+      <div className="mx-auto max-w-7xl px-5 md:px-8">
+        <div className="mb-12 max-w-3xl">
+          <p className="mb-3 text-sm uppercase tracking-[0.22em] text-muted-foreground">
+            {dict.services.eyebrow}
+          </p>
+          <h2 className="text-3xl font-semibold md:text-5xl">
+            {dict.services.title}
+          </h2>
+          <p className="mt-4 text-muted-foreground">{dict.services.description}</p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {features.map((feature, index) => (
+            <div
+              key={feature.title}
+              className="feature-shader-card group relative h-80 rounded-3xl"
+              style={{
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                ["--feature-glow" as string]: feature.glow,
+                ["--feature-ring" as string]: feature.ring,
+                boxShadow: `0 0 0 1px ${feature.ring}, 0 0 48px -8px ${feature.glow}, 0 24px 48px -20px rgba(0,0,0,0.5)`,
+              }}
+            >
+              <div className="absolute inset-0 overflow-hidden rounded-3xl">
+                <Warp
+                  style={{ height: "100%", width: "100%" }}
+                  proportion={0.38 + (index % 3) * 0.05}
+                  softness={0.75 + (index % 2) * 0.1}
+                  distortion={0.18 + (index % 4) * 0.03}
+                  swirl={0.85 + (index % 3) * 0.12}
+                  swirlIterations={10 + (index % 4)}
+                  shape={feature.shape}
+                  shapeScale={0.12}
+                  scale={1.05}
+                  rotation={0}
+                  speed={0.85 + (index % 3) * 0.15}
+                  colors={feature.colors}
+                />
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-70 mix-blend-screen"
+                  style={{
+                    background: `radial-gradient(ellipse at 30% 20%, ${feature.glow}, transparent 55%)`,
+                  }}
+                  aria-hidden
+                />
+              </div>
+
+              <div
+                className={cn(
+                  "relative z-10 flex h-full flex-col rounded-3xl border p-7 backdrop-blur-[6px]",
+                  "border-white/15 bg-gradient-to-br from-bg/50 via-bg/35 to-bg/55",
+                  "transition-colors duration-500 group-hover:border-white/25 group-hover:from-bg/40"
+                )}
+                style={{
+                  boxShadow: `inset 0 0 40px -12px ${feature.glow}`,
+                }}
+              >
+                <div className="mb-5">{feature.icon}</div>
+                <h3 className="text-xl font-semibold text-foreground">
+                  {feature.title}
+                </h3>
+                <p className="mt-3 flex-grow text-sm leading-relaxed text-foreground/75">
+                  {feature.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
