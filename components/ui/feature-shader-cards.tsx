@@ -168,7 +168,7 @@ function FeatureCard({
 }) {
   return (
     <div
-      className="feature-shader-card group relative h-80 rounded-3xl"
+      className="feature-shader-card group relative min-h-[18rem] rounded-3xl sm:h-80"
       style={{
         ["--feature-glow" as string]: feature.glow,
         ["--feature-ring" as string]: feature.ring,
@@ -205,7 +205,7 @@ function FeatureCard({
 
       <div
         className={cn(
-          "relative z-10 flex h-full flex-col rounded-3xl border p-7 backdrop-blur-[6px]",
+          "relative z-10 flex h-full flex-col rounded-3xl border p-6 backdrop-blur-[6px] sm:p-7",
           "border-white/15 bg-gradient-to-br from-bg/50 via-bg/35 to-bg/55",
           "transition-colors duration-500 group-hover:border-white/25 group-hover:from-bg/40",
         )}

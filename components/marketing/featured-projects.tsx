@@ -25,7 +25,7 @@ export function FeaturedProjects({
           <p className="mb-3 text-sm uppercase tracking-[0.22em] text-muted-foreground">
             {dict.projects.eyebrow}
           </p>
-          <h2 className="max-w-3xl text-3xl font-semibold md:text-5xl">
+          <h2 className="max-w-3xl text-4xl font-semibold tracking-tight md:text-5xl">
             {dict.projects.title}
           </h2>
         </Reveal>

@@ -10,7 +10,7 @@ export function TestimonialsSection({ dict }: { dict: Dictionary }) {
           <p className="mb-3 text-sm uppercase tracking-[0.22em] text-muted-foreground">
             {dict.testimonials.eyebrow}
           </p>
-          <h2 className="mb-10 max-w-2xl text-3xl font-semibold md:mb-12 md:text-4xl">
+          <h2 className="mb-10 max-w-2xl text-4xl font-semibold md:mb-12 md:text-4xl">
             {dict.testimonials.title}
           </h2>
         </Reveal>

@@ -26,11 +26,11 @@ export default async function HomePage({ params }: Props) {
 
       <DeferredHomeSections locale={raw} dict={dict} projects={projects} />
 
-      <section className="border-t border-border py-20">
+      <section className="border-t border-border py-16 md:py-20">
         <Container>
           <Reveal>
-            <div className="rounded-3xl border border-border bg-surface p-8 text-center md:p-12">
-              <h2 className="text-3xl font-semibold md:text-4xl">
+            <div className="rounded-3xl border border-border bg-surface p-8 text-center sm:p-10 md:p-12">
+              <h2 className="text-4xl font-semibold md:text-4xl">
                 {dict.contact.title}
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">

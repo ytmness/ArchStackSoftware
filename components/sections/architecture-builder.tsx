@@ -144,7 +144,7 @@ export function ArchitectureBuilder({ dict }: ArchitectureBuilderProps) {
   return (
     <section
       id="builder"
-      className="scroll-mt-24 border-y border-border bg-gradient-to-b from-bg via-surface/20 to-bg py-24 md:py-32"
+      className="scroll-mt-24 border-y border-border bg-gradient-to-b from-bg via-surface/20 to-bg py-20 md:py-32"
     >
       <Container>
         <SectionHeading

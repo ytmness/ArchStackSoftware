@@ -27,7 +27,8 @@ export function InfiniteSlider({
 }: InfiniteSliderProps) {
   const reduce = useReducedMotion();
   const lightMotion = useLightMotion();
-  const paused = reduce || lightMotion;
+  const paused = reduce;
+  const useCssMarquee = lightMotion && !reduce;
   const [currentDuration, setCurrentDuration] = React.useState(duration);
   const [ref, { width, height }] = useMeasure();
   const translation = useMotionValue(0);
@@ -95,6 +96,23 @@ export function InfiniteSlider({
         },
       }
     : {};
+
+  if (useCssMarquee) {
+    return (
+      <div className={cn("overflow-hidden", className)}>
+        <div
+          className="animate-marquee flex w-max"
+          style={{
+            gap: `${gap}px`,
+            flexDirection: direction === "horizontal" ? "row" : "column",
+          }}
+        >
+          {children}
+          {children}
+        </div>
+      </div>
+    );
+  }
 
   if (paused) {
     return (

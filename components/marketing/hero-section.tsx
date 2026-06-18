@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowRight, Zap } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import type { Dictionary } from "@/content/dictionaries/es";
 import type { Locale } from "@/lib/i18n/config";
 import { AetherFlowBackground } from "@/components/ui/aether-flow-background";
@@ -29,8 +29,9 @@ const fadeUp = {
 };
 
 export function MarketingHero({ locale, dict }: MarketingHeroProps) {
+  const reduce = useReducedMotion();
   const lightMotion = useLightMotion();
-  const variants = lightMotion
+  const variants = reduce
     ? {
         hidden: { opacity: 0 },
         visible: { opacity: 1, transition: { duration: 0.4 } },
@@ -38,18 +39,18 @@ export function MarketingHero({ locale, dict }: MarketingHeroProps) {
     : fadeUp;
 
   return (
-    <section className="relative flex min-h-[88vh] w-full flex-col items-center justify-center overflow-hidden md:min-h-screen">
+    <section className="relative flex min-h-[92vh] w-full flex-col items-center justify-center overflow-hidden md:min-h-screen">
       <div className="absolute inset-0 z-0">
         <AetherFlowBackground />
       </div>
 
-      <div className="pointer-events-none relative z-10 mx-auto w-full max-w-5xl px-4 py-20 text-center md:py-28">
+      <div className="pointer-events-none relative z-10 mx-auto w-full max-w-5xl px-5 py-24 text-center sm:px-6 md:py-28">
         <motion.div
           custom={0}
           variants={variants}
           initial="hidden"
           animate="visible"
-          className="mb-5 flex justify-center md:mb-6"
+          className="mb-6 flex justify-center md:mb-6"
         >
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 backdrop-blur-sm">
             <Zap className="h-4 w-4 text-primary" aria-hidden />
@@ -81,7 +82,7 @@ export function MarketingHero({ locale, dict }: MarketingHeroProps) {
           <span className="sr-only">{dict.hero.title}</span>
           <div className="overflow-hidden py-1 [contain:paint]">
             {lightMotion ? (
-              <span className="text-4xl font-bold leading-[1.06] tracking-tighter text-foreground sm:text-5xl">
+              <span className="text-5xl font-bold leading-[1.04] tracking-tighter text-foreground sm:text-6xl md:text-7xl lg:text-[4.5rem]">
                 {dict.hero.title}
               </span>
             ) : (
@@ -89,7 +90,7 @@ export function MarketingHero({ locale, dict }: MarketingHeroProps) {
                 texts={dict.hero.gooeyTitleTexts}
                 morphTime={1.4}
                 cooldownTime={0.4}
-                textClassName="text-4xl font-bold leading-[1.06] tracking-tighter text-foreground sm:text-5xl md:text-7xl lg:text-[4.5rem]"
+                textClassName="text-5xl font-bold leading-[1.04] tracking-tighter text-foreground sm:text-6xl md:text-7xl lg:text-[4.5rem]"
               />
             )}
           </div>
@@ -100,7 +101,7 @@ export function MarketingHero({ locale, dict }: MarketingHeroProps) {
           variants={variants}
           initial="hidden"
           animate="visible"
-          className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:mt-6 md:text-lg"
+          className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground md:mt-6 md:text-xl"
         >
           {dict.hero.subtitle}
         </motion.p>
@@ -110,7 +111,7 @@ export function MarketingHero({ locale, dict }: MarketingHeroProps) {
           variants={variants}
           initial="hidden"
           animate="visible"
-          className="pointer-events-auto mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
+          className="pointer-events-auto mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
         >
           <Button asChild size="lg">
             <Link href={`/${locale}/contact`}>

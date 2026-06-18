@@ -86,8 +86,8 @@ export const TextStaggerHover = React.forwardRef<
         ref={ref as React.Ref<HTMLButtonElement>}
         onClick={activate}
         className={cn(
-          "block w-full text-left transition-opacity duration-300",
-          isActive ? "opacity-100" : "opacity-40",
+          "block w-full text-left transition-[opacity,transform] duration-300",
+          isActive ? "scale-[1.01] opacity-100" : "opacity-[0.32]",
           className,
         )}
         {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
@@ -198,7 +198,7 @@ export const HoverSliderImage = React.forwardRef<
   const lightMotion = useLightMotion();
   const { activeSlide } = useHoverSliderContext();
   const visible = activeSlide === index;
-  const src = lightMotion ? optimizeImageUrl(imageUrl, 720) : imageUrl;
+  const src = lightMotion ? optimizeImageUrl(imageUrl, 960) : imageUrl;
 
   if (lightMotion) {
     return (
