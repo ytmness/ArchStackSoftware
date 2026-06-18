@@ -3,15 +3,17 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronDown } from "lucide-react";
+import type { Dictionary } from "@/content/dictionaries/es";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { services } from "@/lib/data/services";
 import { cn } from "@/lib/utils";
+
+type ServiceItem = Dictionary["serviceItems"][number];
 
 function ServiceCardDesktop({
   service,
 }: {
-  service: (typeof services)[number];
+  service: ServiceItem;
 }) {
   const [hovered, setHovered] = useState(false);
 
@@ -70,7 +72,7 @@ function ServiceCardDesktop({
 function ServiceAccordionMobile({
   service,
 }: {
-  service: (typeof services)[number];
+  service: ServiceItem;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -121,14 +123,16 @@ function ServiceAccordionMobile({
   );
 }
 
-export function Services() {
+export function Services({ dict }: { dict: Dictionary }) {
+  const services = dict.serviceItems;
+
   return (
     <section id="services" className="border-t border-line py-20 md:py-28">
       <Container>
         <SectionHeading
-          eyebrow="Servicios"
-          title="Capas de un sistema digital completo"
-          description="Cada servicio es una capa del stack. Trabajamos de forma integral o en módulos según tu etapa."
+          eyebrow={dict.services.eyebrow}
+          title={dict.services.title}
+          description={dict.services.description}
         />
 
         <ul className="hidden gap-5 md:grid md:grid-cols-2 lg:grid-cols-3">

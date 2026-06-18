@@ -15,7 +15,7 @@ export default async function DashboardProjectsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Proyectos</h1>
-        <Button asChild>
+        <Button asChild metal={false}>
           <Link href="/dashboard/projects/new">Nuevo proyecto</Link>
         </Button>
       </div>

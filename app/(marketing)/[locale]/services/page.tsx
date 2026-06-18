@@ -45,7 +45,7 @@ export default async function ServicesPage({ params }: Props) {
       </section>
 
       <DeferredServicesSections dict={dict} />
-      <Services />
+      <Services dict={dict} />
     </>
   );
 }

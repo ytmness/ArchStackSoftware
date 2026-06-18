@@ -61,7 +61,7 @@ export function MarketingHeader({
           type="button"
           className="md:hidden"
           onClick={() => setOpen(!open)}
-          aria-label={open ? "Cerrar menú" : "Abrir menú"}
+          aria-label={open ? dict.common.menuClose : dict.common.menuOpen}
           aria-expanded={open}
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

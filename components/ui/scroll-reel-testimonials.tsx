@@ -14,6 +14,10 @@ export interface ScrollReelTestimonialsProps {
   testimonials: ScrollReelTestimonial[];
   charStaggerMs?: number;
   className?: string;
+  /** Auto-advance testimonials in an infinite loop */
+  autoPlay?: boolean;
+  autoPlayIntervalMs?: number;
+  pauseOnHover?: boolean;
 }
 
 const CELL = 121.33;
@@ -121,11 +125,15 @@ export function ScrollReelTestimonials({
   testimonials,
   charStaggerMs = 6,
   className,
+  autoPlay = true,
+  autoPlayIntervalMs = 5500,
+  pauseOnHover = true,
 }: ScrollReelTestimonialsProps) {
   const [index, setIndex] = React.useState(0);
   const [displayIndex, setDisplayIndex] = React.useState(0);
   const [exiting, setExiting] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
+  const [paused, setPaused] = React.useState(false);
   const animating = React.useRef(false);
   const timeouts = React.useRef<ReturnType<typeof setTimeout>[]>([]);
 
@@ -143,9 +151,8 @@ export function ScrollReelTestimonials({
 
   const paginate = React.useCallback(
     (dir: 1 | -1) => {
-      if (animating.current) return;
-      const next = index + dir;
-      if (next < 0 || next >= count) return;
+      if (animating.current || count <= 1) return;
+      const next = (index + dir + count) % count;
       animating.current = true;
 
       setIndex(next);
@@ -165,6 +172,30 @@ export function ScrollReelTestimonials({
     },
     [index, count]
   );
+
+  const paginateRef = React.useRef(paginate);
+  paginateRef.current = paginate;
+
+  React.useEffect(() => {
+    if (!autoPlay || count <= 1 || paused) return;
+
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mq.matches) return;
+
+    const intervalId = window.setInterval(() => {
+      paginateRef.current(1);
+    }, autoPlayIntervalMs);
+
+    const onMotionChange = (event: MediaQueryListEvent) => {
+      if (event.matches) window.clearInterval(intervalId);
+    };
+    mq.addEventListener("change", onMotionChange);
+
+    return () => {
+      window.clearInterval(intervalId);
+      mq.removeEventListener("change", onMotionChange);
+    };
+  }, [autoPlay, autoPlayIntervalMs, count, paused]);
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowRight") {
@@ -209,6 +240,8 @@ export function ScrollReelTestimonials({
       aria-label="Testimonials"
       tabIndex={0}
       onKeyDown={onKeyDown}
+      onMouseEnter={pauseOnHover ? () => setPaused(true) : undefined}
+      onMouseLeave={pauseOnHover ? () => setPaused(false) : undefined}
       className={cn(
         "relative flex w-full max-w-[1060px] flex-col items-stretch gap-2.5 overflow-hidden rounded-xl border border-border bg-surface/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] outline-none focus-visible:ring-2 focus-visible:ring-ring md:min-h-[320px] md:flex-row",
         className
@@ -317,7 +350,7 @@ export function ScrollReelTestimonials({
           <button
             type="button"
             onClick={() => paginate(-1)}
-            disabled={index === 0}
+            disabled={count <= 1}
             aria-label="Previous testimonial"
             className="grid h-6 w-6 cursor-pointer place-items-center rounded-full border border-foreground/15 bg-transparent p-0 text-foreground transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:enabled:scale-[1.08] active:enabled:scale-[0.94] disabled:cursor-default disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
@@ -336,7 +369,7 @@ export function ScrollReelTestimonials({
           <button
             type="button"
             onClick={() => paginate(1)}
-            disabled={index === count - 1}
+            disabled={count <= 1}
             aria-label="Next testimonial"
             className="grid h-6 w-6 cursor-pointer place-items-center rounded-full border border-foreground/15 bg-transparent p-0 text-foreground transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:enabled:scale-[1.08] active:enabled:scale-[0.94] disabled:cursor-default disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >

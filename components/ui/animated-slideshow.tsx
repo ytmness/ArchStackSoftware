@@ -12,6 +12,8 @@ import { cn } from "@/lib/utils";
 interface TextStaggerHoverProps {
   text: string;
   index: number;
+  /** Adds per-character spacing so stagger animation does not overlap glyphs. */
+  characterGap?: boolean;
 }
 
 interface HoverSliderImageProps {
@@ -67,7 +69,7 @@ HoverSlider.displayName = "HoverSlider";
 export const TextStaggerHover = React.forwardRef<
   HTMLSpanElement,
   React.HTMLAttributes<HTMLSpanElement> & TextStaggerHoverProps
->(({ text, index, className, ...props }, ref) => {
+>(({ text, index, characterGap = false, className, ...props }, ref) => {
   const reduce = useReducedMotion();
   const { activeSlide, changeSlide } = useHoverSliderContext();
   const { characters } = splitText(text);
@@ -78,6 +80,7 @@ export const TextStaggerHover = React.forwardRef<
       ref={ref}
       className={cn(
         "relative block w-full origin-bottom max-md:whitespace-normal md:whitespace-nowrap",
+        characterGap && "tracking-normal md:tracking-wide",
         className,
       )}
       onMouseEnter={() => changeSlide(index)}
@@ -89,7 +92,10 @@ export const TextStaggerHover = React.forwardRef<
       {characters.map((char, charIndex) => (
         <span
           key={`${char}-${charIndex}`}
-          className="relative inline-block overflow-hidden align-bottom"
+          className={cn(
+            "relative inline-block overflow-hidden align-bottom",
+            characterGap && "px-[0.05em] pb-[0.12em]",
+          )}
         >
           {reduce || !isActive ? (
             <span

@@ -1,26 +1,28 @@
+import type { Dictionary } from "@/content/dictionaries/es";
+
 export type ArchitectureModule = {
   id: string;
   label: string;
 };
 
-export const architectureModules: ArchitectureModule[] = [
-  { id: "web", label: "Web App" },
-  { id: "mobile", label: "Mobile App" },
-  { id: "admin", label: "Admin Panel" },
-  { id: "ai", label: "AI Layer" },
-  { id: "payments", label: "Payments" },
-  { id: "analytics", label: "Analytics" },
-];
+export function getArchitectureModules(
+  dict: Dictionary,
+): ArchitectureModule[] {
+  return [...dict.builder.modules];
+}
 
-export function buildLayers(active: string[]): string[] {
+export function buildLayers(
+  active: string[],
+  layers: Dictionary["builder"]["layers"],
+): string[] {
   return [
-    "Frontend",
-    active.includes("mobile") ? "Mobile Client" : null,
-    "API Gateway",
-    active.includes("ai") ? "AI Orchestration" : null,
-    active.includes("payments") ? "Payments Service" : null,
-    "Database",
-    active.includes("analytics") ? "Analytics Pipeline" : null,
-    active.includes("admin") ? "Admin Console" : null,
+    layers.frontend,
+    active.includes("mobile") ? layers.mobileClient : null,
+    layers.apiGateway,
+    active.includes("ai") ? layers.aiOrchestration : null,
+    active.includes("payments") ? layers.paymentsService : null,
+    layers.database,
+    active.includes("analytics") ? layers.analyticsPipeline : null,
+    active.includes("admin") ? layers.adminConsole : null,
   ].filter(Boolean) as string[];
 }

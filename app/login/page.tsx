@@ -44,7 +44,7 @@ export default function LoginPage() {
                 {state.error}
               </p>
             )}
-            <Button type="submit" className="w-full" disabled={pending}>
+            <Button type="submit" className="w-full" disabled={pending} metal={false}>
               {pending ? "Entrando…" : "Iniciar sesión"}
             </Button>
           </form>

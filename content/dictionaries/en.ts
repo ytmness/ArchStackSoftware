@@ -81,6 +81,26 @@ export const dictionary = {
     previewLabel: "Architecture view",
     activeModules: "active modules",
     layersInStack: "layers in the resulting stack",
+    moduleIncluded: "Included in stack",
+    moduleAdd: "Tap to add",
+    modules: [
+      { id: "web", label: "Web App" },
+      { id: "mobile", label: "Mobile App" },
+      { id: "admin", label: "Admin Panel" },
+      { id: "ai", label: "AI Layer" },
+      { id: "payments", label: "Payments" },
+      { id: "analytics", label: "Analytics" },
+    ],
+    layers: {
+      frontend: "Frontend",
+      mobileClient: "Mobile Client",
+      apiGateway: "API Gateway",
+      aiOrchestration: "AI Orchestration",
+      paymentsService: "Payments Service",
+      database: "Database",
+      analyticsPipeline: "Analytics Pipeline",
+      adminConsole: "Admin Console",
+    },
   },
   services: {
     eyebrow: "Services",
@@ -158,6 +178,90 @@ export const dictionary = {
       "Hover each surface to feel the depth. Every card represents a real layer of our delivery stack.",
     cta: "View services",
   },
+  featureCards: {
+    items: [
+      {
+        title: "Product Engineering",
+        description:
+          "Architecture and product aligned from day one. MVPs with technical rigor, not patches.",
+      },
+      {
+        title: "Platform & APIs",
+        description:
+          "Robust backends, clear contracts, and observability for teams that need speed.",
+      },
+      {
+        title: "AI Layer",
+        description:
+          "AI integrated into the system: copilots, classification, extraction, and automated workflows.",
+      },
+      {
+        title: "Delivery",
+        description:
+          "CI/CD, deployment, and documented handoff. Production-ready from the first release.",
+      },
+      {
+        title: "Security & RLS",
+        description:
+          "Auth, permissions, and data modeled with defense in depth from the design phase.",
+      },
+      {
+        title: "Operations",
+        description:
+          "Monitoring, scaling, and continuous evolution of product and platform.",
+      },
+    ],
+  },
+  serviceItems: [
+    {
+      id: "product",
+      title: "Product Engineering",
+      summary: "Digital systems designed to scale from day one.",
+      detail:
+        "We define architecture, data models, and product surfaces with technical rigor and business vision.",
+      tags: ["Discovery", "MVP", "Roadmap"],
+    },
+    {
+      id: "platform",
+      title: "Platform & APIs",
+      summary: "Robust backends, clear APIs, and contracts that don't break.",
+      detail:
+        "We build service layers, integrations, and observability for teams that need speed without debt.",
+      tags: ["Node", "Postgres", "Event-driven"],
+    },
+    {
+      id: "frontend",
+      title: "Frontend Systems",
+      summary: "Premium interfaces with real performance and accessibility.",
+      detail:
+        "Design systems, complex web apps, and mobile experiences with functional motion and optimized loading.",
+      tags: ["Next.js", "React", "Motion"],
+    },
+    {
+      id: "ai",
+      title: "AI Integration",
+      summary: "AI as a system layer, not a decorative feature.",
+      detail:
+        "Copilots, classification, extraction, and automated workflows integrated into your existing stack.",
+      tags: ["RAG", "Agents", "Automation"],
+    },
+    {
+      id: "infra",
+      title: "Cloud & Infra",
+      summary: "Deployment, CI/CD, and observability ready for production.",
+      detail:
+        "Infrastructure as code, pipelines, and monitoring to operate with confidence.",
+      tags: ["Vercel", "AWS", "Monitoring"],
+    },
+    {
+      id: "advisory",
+      title: "Technical Advisory",
+      summary: "Architecture decisions with measurable impact.",
+      detail:
+        "Audits, stack reviews, and guidance for teams scaling product and engineering.",
+      tags: ["Architecture", "Reviews", "Scaling"],
+    },
+  ],
   hoverSlider: {
     eyebrow: "services",
     slides: [
@@ -211,6 +315,13 @@ export const dictionary = {
     draft: "Draft",
     published: "Published",
     locale: "Language",
+    menuOpen: "Open menu",
+    menuClose: "Close menu",
+  },
+  notFound: {
+    title: "404",
+    description: "Page not found.",
+    backHome: "Back to home",
   },
   auth: {
     login: "Sign in",

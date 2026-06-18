@@ -14,8 +14,8 @@ import type { Dictionary } from "@/content/dictionaries/es";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import {
-  architectureModules,
   buildLayers,
+  getArchitectureModules,
   type ArchitectureModule,
 } from "@/lib/data/modules";
 import { cn } from "@/lib/utils";
@@ -33,10 +33,14 @@ function ModuleCard({
   module,
   selected,
   onToggle,
+  includedLabel,
+  addLabel,
 }: {
   module: ArchitectureModule;
   selected: boolean;
   onToggle: () => void;
+  includedLabel: string;
+  addLabel: string;
 }) {
   return (
     <button
@@ -72,7 +76,7 @@ function ModuleCard({
           {module.label}
         </span>
         <span className="mt-1 block text-xs text-muted-foreground md:text-sm">
-          {selected ? "Incluido en el stack" : "Toca para añadir"}
+          {selected ? includedLabel : addLabel}
         </span>
       </span>
     </button>
@@ -111,7 +115,11 @@ type ArchitectureBuilderProps = {
 
 export function ArchitectureBuilder({ dict }: ArchitectureBuilderProps) {
   const [active, setActive] = useState<string[]>(["web", "admin"]);
-  const layers = useMemo(() => buildLayers(active), [active]);
+  const modules = getArchitectureModules(dict);
+  const layers = useMemo(
+    () => buildLayers(active, dict.builder.layers),
+    [active, dict.builder.layers],
+  );
 
   const toggle = (id: string) => {
     setActive((prev) =>
@@ -138,12 +146,14 @@ export function ArchitectureBuilder({ dict }: ArchitectureBuilderProps) {
               {dict.builder.modulesLabel}
             </p>
             <div className="grid gap-3 sm:grid-cols-2">
-              {architectureModules.map((module) => (
+              {modules.map((module) => (
                 <ModuleCard
                   key={module.id}
                   module={module}
                   selected={active.includes(module.id)}
                   onToggle={() => toggle(module.id)}
+                  includedLabel={dict.builder.moduleIncluded}
+                  addLabel={dict.builder.moduleAdd}
                 />
               ))}
             </div>

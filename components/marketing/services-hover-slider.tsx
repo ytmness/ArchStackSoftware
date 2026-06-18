@@ -8,8 +8,18 @@ import {
   TextStaggerHover,
 } from "@/components/ui/animated-slideshow";
 import { Reveal } from "@/components/motion/reveal";
+import { cn } from "@/lib/utils";
 
-export function ServicesHoverSlider({ dict }: { dict: Dictionary }) {
+type ServicesHoverSliderProps = {
+  dict: Dictionary;
+  /** Side-by-side titles + preview image on desktop. */
+  paired?: boolean;
+};
+
+export function ServicesHoverSlider({
+  dict,
+  paired = true,
+}: ServicesHoverSliderProps) {
   const slides = dict.hoverSlider.slides;
 
   return (
@@ -20,19 +30,38 @@ export function ServicesHoverSlider({ dict }: { dict: Dictionary }) {
             / {dict.hoverSlider.eyebrow}
           </p>
 
-          <div className="flex flex-col items-stretch gap-12 lg:gap-16">
-            <div className="flex w-full flex-col gap-3 md:gap-4">
+          <div
+            className={cn(
+              "flex flex-col items-stretch gap-10 md:gap-12",
+              paired &&
+                "lg:flex-row lg:items-center lg:justify-between lg:gap-8 xl:gap-12",
+            )}
+          >
+            <div
+              className={cn(
+                "flex w-full flex-col gap-3 md:gap-4",
+                paired && "min-w-0 shrink lg:max-w-[48%] xl:max-w-[50%]",
+              )}
+            >
               {slides.map((slide, index) => (
                 <TextStaggerHover
                   key={slide.id}
                   index={index}
                   text={slide.title}
-                  className="cursor-pointer text-left text-4xl font-bold uppercase tracking-tighter text-foreground transition-colors sm:text-5xl md:text-6xl lg:text-7xl lg:leading-[1.05] xl:text-[4.25rem]"
+                  characterGap
+                  className="cursor-pointer text-left text-4xl font-bold uppercase text-foreground transition-colors sm:text-5xl md:text-5xl md:leading-[1.12] lg:text-6xl lg:leading-[1.1] xl:text-[3.5rem] xl:leading-[1.08]"
                 />
               ))}
             </div>
 
-            <HoverSliderImageWrap className="aspect-[16/10] w-full max-w-2xl self-end overflow-hidden rounded-3xl border border-border bg-surface shadow-[0_32px_64px_-24px_rgba(0,0,0,0.6)] lg:max-w-3xl">
+            <HoverSliderImageWrap
+              className={cn(
+                "aspect-[16/10] w-full overflow-hidden rounded-3xl border border-border bg-surface shadow-[0_32px_64px_-24px_rgba(0,0,0,0.6)]",
+                paired
+                  ? "shrink-0 lg:w-[min(46%,40rem)] lg:max-w-none xl:w-[min(44%,42rem)]"
+                  : "max-w-2xl self-end lg:max-w-3xl",
+              )}
+            >
               {slides.map((slide, index) => (
                 <HoverSliderImage
                   key={slide.id}

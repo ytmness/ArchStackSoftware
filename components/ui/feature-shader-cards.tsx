@@ -31,110 +31,112 @@ type Feature = {
 };
 
 function buildFeatures(dict: Dictionary): Feature[] {
-  return [
+  const shapes: Array<"checks" | "stripes" | "edge"> = [
+    "checks",
+    "stripes",
+    "checks",
+    "stripes",
+    "checks",
+    "edge",
+  ];
+  const icons = [
+    <Layers
+      key="layers"
+      className="h-10 w-10 text-sky-300 drop-shadow-[0_0_14px_rgba(56,189,248,0.9)]"
+    />,
+    <Cpu
+      key="cpu"
+      className="h-10 w-10 text-cyan-300 drop-shadow-[0_0_14px_rgba(34,211,238,0.9)]"
+    />,
+    <Sparkles
+      key="sparkles"
+      className="h-10 w-10 text-violet-300 drop-shadow-[0_0_16px_rgba(167,139,250,0.95)]"
+    />,
+    <Rocket
+      key="rocket"
+      className="h-10 w-10 text-amber-300 drop-shadow-[0_0_14px_rgba(251,191,36,0.9)]"
+    />,
+    <Shield
+      key="shield"
+      className="h-10 w-10 text-blue-300 drop-shadow-[0_0_14px_rgba(96,165,250,0.9)]"
+    />,
+    <Workflow
+      key="workflow"
+      className="h-10 w-10 text-teal-300 drop-shadow-[0_0_14px_rgba(45,212,191,0.9)]"
+    />,
+  ];
+  const palettes = [
     {
-      title: dict.services.pageTitle.split(" ")[0] + " Engineering",
-      description:
-        "Arquitectura y producto alineados desde el día uno. MVPs con criterio técnico, no parches.",
-      icon: (
-        <Layers className="h-10 w-10 text-sky-300 drop-shadow-[0_0_14px_rgba(56,189,248,0.9)]" />
-      ),
       colors: [
         "hsl(215, 95%, 22%)",
         "hsl(200, 100%, 52%)",
         "hsl(225, 90%, 14%)",
         "hsl(195, 100%, 68%)",
       ],
-      shape: "checks",
       glow: "rgba(56, 189, 248, 0.45)",
       ring: "rgba(56, 189, 248, 0.35)",
     },
     {
-      title: "Platform & APIs",
-      description:
-        "Backends robustos, contratos claros y observabilidad para equipos que necesitan velocidad.",
-      icon: (
-        <Cpu className="h-10 w-10 text-cyan-300 drop-shadow-[0_0_14px_rgba(34,211,238,0.9)]" />
-      ),
       colors: [
         "hsl(195, 100%, 20%)",
         "hsl(185, 100%, 48%)",
         "hsl(205, 95%, 12%)",
         "hsl(175, 100%, 62%)",
       ],
-      shape: "stripes",
       glow: "rgba(34, 211, 238, 0.42)",
       ring: "rgba(34, 211, 238, 0.32)",
     },
     {
-      title: "AI Layer",
-      description:
-        "IA integrada al sistema: copilotos, clasificación, extracción y workflows automatizados.",
-      icon: (
-        <Sparkles className="h-10 w-10 text-violet-300 drop-shadow-[0_0_16px_rgba(167,139,250,0.95)]" />
-      ),
       colors: [
         "hsl(270, 95%, 24%)",
         "hsl(285, 100%, 58%)",
         "hsl(255, 90%, 16%)",
         "hsl(300, 100%, 72%)",
       ],
-      shape: "checks",
       glow: "rgba(167, 139, 250, 0.5)",
       ring: "rgba(192, 132, 252, 0.4)",
     },
     {
-      title: "Delivery",
-      description:
-        "CI/CD, despliegue y handoff documentado. Producción con confianza desde la primera release.",
-      icon: (
-        <Rocket className="h-10 w-10 text-amber-300 drop-shadow-[0_0_14px_rgba(251,191,36,0.9)]" />
-      ),
       colors: [
         "hsl(32, 100%, 22%)",
         "hsl(42, 100%, 52%)",
         "hsl(25, 95%, 14%)",
         "hsl(48, 100%, 65%)",
       ],
-      shape: "stripes",
       glow: "rgba(251, 191, 36, 0.4)",
       ring: "rgba(251, 191, 36, 0.32)",
     },
     {
-      title: "Security & RLS",
-      description:
-        "Auth, permisos y datos modelados con defensa en profundidad desde el diseño.",
-      icon: (
-        <Shield className="h-10 w-10 text-blue-300 drop-shadow-[0_0_14px_rgba(96,165,250,0.9)]" />
-      ),
       colors: [
         "hsl(220, 95%, 20%)",
         "hsl(210, 100%, 48%)",
         "hsl(235, 90%, 12%)",
         "hsl(200, 100%, 68%)",
       ],
-      shape: "checks",
       glow: "rgba(96, 165, 250, 0.42)",
       ring: "rgba(59, 130, 246, 0.35)",
     },
     {
-      title: "Operations",
-      description:
-        "Monitoreo, escalado y evolución continua del producto y la plataforma.",
-      icon: (
-        <Workflow className="h-10 w-10 text-teal-300 drop-shadow-[0_0_14px_rgba(45,212,191,0.9)]" />
-      ),
       colors: [
         "hsl(185, 95%, 18%)",
         "hsl(175, 100%, 46%)",
         "hsl(195, 90%, 11%)",
         "hsl(165, 100%, 62%)",
       ],
-      shape: "edge",
       glow: "rgba(45, 212, 191, 0.4)",
       ring: "rgba(45, 212, 191, 0.32)",
     },
   ];
+
+  return dict.featureCards.items.map((item, index) => ({
+    title: item.title,
+    description: item.description,
+    icon: icons[index],
+    shape: shapes[index],
+    colors: palettes[index].colors,
+    glow: palettes[index].glow,
+    ring: palettes[index].ring,
+  }));
 }
 
 function StaticShaderBackground({

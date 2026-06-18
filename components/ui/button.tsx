@@ -1,6 +1,9 @@
+"use client";
+
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
+import { LiquidMetalButton } from "@/components/ui/liquid-metal-button";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
@@ -9,7 +12,8 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        secondary: "border border-border bg-surface text-foreground hover:bg-surface-2",
+        secondary:
+          "border border-border bg-surface text-foreground hover:bg-surface-2",
         ghost: "text-muted-foreground hover:text-foreground hover:bg-surface-2",
         destructive: "bg-destructive text-white hover:bg-destructive/90",
         outline: "border border-border bg-transparent hover:bg-surface-2",
@@ -22,26 +26,55 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: { variant: "default", size: "default" },
-  }
+  },
 );
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  /** When false, renders the classic flat button (admin/forms). */
+  metal?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      size,
+      asChild = false,
+      metal = true,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    if (metal) {
+      return (
+        <LiquidMetalButton
+          ref={ref}
+          asChild={asChild}
+          size={size ?? "default"}
+          className={className}
+          {...props}
+        >
+          {children}
+        </LiquidMetalButton>
+      );
+    }
+
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
-      />
+      >
+        {children}
+      </Comp>
     );
-  }
+  },
 );
 Button.displayName = "Button";
 

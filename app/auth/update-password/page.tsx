@@ -39,7 +39,7 @@ export default function UpdatePasswordPage() {
               {resetState?.ok && (
                 <p className="text-sm text-primary">Revisa tu correo para continuar.</p>
               )}
-              <Button type="submit" disabled={resetPending} className="w-full">
+              <Button type="submit" disabled={resetPending} className="w-full" metal={false}>
                 Enviar enlace
               </Button>
             </form>
@@ -59,7 +59,7 @@ export default function UpdatePasswordPage() {
               {updateState?.error && (
                 <p className="text-sm text-destructive">{updateState.error}</p>
               )}
-              <Button type="submit" disabled={updatePending} className="w-full">
+              <Button type="submit" disabled={updatePending} className="w-full" metal={false}>
                 Guardar contraseña
               </Button>
             </form>

@@ -35,7 +35,7 @@ export const dictionary = {
       "IA aplicada",
       "Marketplaces",
       "Plataformas B2B",
-      "Admin panels",
+      "Paneles admin",
       "Automatización",
     ],
   },
@@ -73,7 +73,7 @@ export const dictionary = {
     ],
   },
   builder: {
-    eyebrow: "Architecture Builder",
+    eyebrow: "Constructor de arquitectura",
     title: "Arma tu sistema capa por capa",
     description:
       "Selecciona módulos y observa cómo se compone la arquitectura en tiempo real.",
@@ -81,6 +81,26 @@ export const dictionary = {
     previewLabel: "Vista de arquitectura",
     activeModules: "módulos activos",
     layersInStack: "capas en el stack resultante",
+    moduleIncluded: "Incluido en el stack",
+    moduleAdd: "Toca para añadir",
+    modules: [
+      { id: "web", label: "App web" },
+      { id: "mobile", label: "App móvil" },
+      { id: "admin", label: "Panel admin" },
+      { id: "ai", label: "Capa de IA" },
+      { id: "payments", label: "Pagos" },
+      { id: "analytics", label: "Analítica" },
+    ],
+    layers: {
+      frontend: "Frontend",
+      mobileClient: "Cliente móvil",
+      apiGateway: "API Gateway",
+      aiOrchestration: "Orquestación IA",
+      paymentsService: "Servicio de pagos",
+      database: "Base de datos",
+      analyticsPipeline: "Pipeline analítico",
+      adminConsole: "Consola admin",
+    },
   },
   services: {
     eyebrow: "Servicios",
@@ -158,6 +178,90 @@ export const dictionary = {
       "Hover sobre cada superficie para ver profundidad. Cada card representa una capa real de nuestro stack de entrega.",
     cta: "Ver servicios",
   },
+  featureCards: {
+    items: [
+      {
+        title: "Ingeniería de producto",
+        description:
+          "Arquitectura y producto alineados desde el día uno. MVPs con criterio técnico, no parches.",
+      },
+      {
+        title: "Plataforma y APIs",
+        description:
+          "Backends robustos, contratos claros y observabilidad para equipos que necesitan velocidad.",
+      },
+      {
+        title: "Capa de IA",
+        description:
+          "IA integrada al sistema: copilotos, clasificación, extracción y workflows automatizados.",
+      },
+      {
+        title: "Entrega",
+        description:
+          "CI/CD, despliegue y handoff documentado. Producción con confianza desde la primera release.",
+      },
+      {
+        title: "Seguridad y RLS",
+        description:
+          "Auth, permisos y datos modelados con defensa en profundidad desde el diseño.",
+      },
+      {
+        title: "Operaciones",
+        description:
+          "Monitoreo, escalado y evolución continua del producto y la plataforma.",
+      },
+    ],
+  },
+  serviceItems: [
+    {
+      id: "product",
+      title: "Ingeniería de producto",
+      summary: "Sistemas digitales diseñados para escalar desde el día uno.",
+      detail:
+        "Definimos arquitectura, modelos de datos y superficies de producto con criterio técnico y visión comercial.",
+      tags: ["Discovery", "MVP", "Roadmap"],
+    },
+    {
+      id: "platform",
+      title: "Plataforma y APIs",
+      summary: "Backends robustos, APIs claras y contratos que no se rompen.",
+      detail:
+        "Construimos capas de servicio, integraciones y observabilidad para equipos que necesitan velocidad sin deuda.",
+      tags: ["Node", "Postgres", "Event-driven"],
+    },
+    {
+      id: "frontend",
+      title: "Sistemas frontend",
+      summary: "Interfaces premium con performance y accesibilidad reales.",
+      detail:
+        "Design systems, apps web complejas y experiencias móviles con motion funcional y carga optimizada.",
+      tags: ["Next.js", "React", "Motion"],
+    },
+    {
+      id: "ai",
+      title: "Integración de IA",
+      summary: "IA como capa del sistema, no como feature decorativa.",
+      detail:
+        "Copilotos, clasificación, extracción y workflows automatizados integrados a tu stack existente.",
+      tags: ["RAG", "Agents", "Automation"],
+    },
+    {
+      id: "infra",
+      title: "Cloud e infra",
+      summary: "Despliegue, CI/CD y observabilidad listos para producción.",
+      detail:
+        "Infraestructura como código, pipelines y monitoreo para operar con confianza.",
+      tags: ["Vercel", "AWS", "Monitoring"],
+    },
+    {
+      id: "advisory",
+      title: "Asesoría técnica",
+      summary: "Decisiones de arquitectura con impacto medible.",
+      detail:
+        "Auditorías, revisiones de stack y acompañamiento para equipos que escalan producto y equipo.",
+      tags: ["Architecture", "Reviews", "Scaling"],
+    },
+  ],
   hoverSlider: {
     eyebrow: "servicios",
     slides: [
@@ -211,6 +315,13 @@ export const dictionary = {
     draft: "Borrador",
     published: "Publicado",
     locale: "Idioma",
+    menuOpen: "Abrir menú",
+    menuClose: "Cerrar menú",
+  },
+  notFound: {
+    title: "404",
+    description: "Página no encontrada.",
+    backHome: "Volver al inicio",
   },
   auth: {
     login: "Iniciar sesión",
