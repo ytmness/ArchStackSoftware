@@ -91,7 +91,7 @@ export function MarketingHero({ locale, dict }: MarketingHeroProps) {
           animate="visible"
           className="pointer-events-auto mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
         >
-          <Button asChild size="lg" className="gap-2 shadow-[var(--shadow-glow)]">
+          <Button asChild size="lg">
             <Link href={`/${locale}/contact`}>
               {dict.hero.ctaPrimary}
               <ArrowRight className="h-4 w-4" aria-hidden />
