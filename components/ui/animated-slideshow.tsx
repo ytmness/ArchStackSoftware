@@ -77,7 +77,7 @@ export const TextStaggerHover = React.forwardRef<
     <span
       ref={ref}
       className={cn(
-        "relative inline-block origin-bottom overflow-hidden",
+        "relative block w-full origin-bottom max-md:whitespace-normal md:whitespace-nowrap",
         className,
       )}
       onMouseEnter={() => changeSlide(index)}
