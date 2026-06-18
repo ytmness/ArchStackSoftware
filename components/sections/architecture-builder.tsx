@@ -18,6 +18,7 @@ import {
   getArchitectureModules,
   type ArchitectureModule,
 } from "@/lib/data/modules";
+import { useLightMotion } from "@/lib/hooks/use-light-motion";
 import { cn } from "@/lib/utils";
 
 const moduleIcons: Record<string, ReactNode> = {
@@ -42,6 +43,8 @@ function ModuleCard({
   includedLabel: string;
   addLabel: string;
 }) {
+  const lightMotion = useLightMotion();
+
   return (
     <button
       type="button"
@@ -54,13 +57,16 @@ function ModuleCard({
           : "border-border bg-surface/40 hover:border-border/80 hover:bg-surface/70",
       )}
     >
-      {selected && (
-        <motion.span
-          layoutId="builder-module-highlight"
-          className="absolute inset-0 rounded-2xl bg-primary/5"
-          transition={{ type: "spring", stiffness: 320, damping: 30 }}
-        />
-      )}
+      {selected &&
+        (lightMotion ? (
+          <span className="absolute inset-0 rounded-2xl bg-primary/5" aria-hidden />
+        ) : (
+          <motion.span
+            layoutId="builder-module-highlight"
+            className="absolute inset-0 rounded-2xl bg-primary/5"
+            transition={{ type: "spring", stiffness: 320, damping: 30 }}
+          />
+        ))}
       <span
         className={cn(
           "relative z-10 flex size-10 shrink-0 items-center justify-center rounded-xl border transition-colors",
@@ -84,6 +90,10 @@ function ModuleCard({
 }
 
 function LayerDiagram({ layers }: { layers: string[] }) {
+  const lightMotion = useLightMotion();
+  const layerClass =
+    "w-full rounded-xl border border-border/80 bg-bg/80 px-4 py-3 text-center text-sm font-medium text-foreground backdrop-blur-sm md:text-base";
+
   return (
     <div className="relative flex flex-col gap-0">
       {layers.map((layer, i) => (
@@ -94,15 +104,19 @@ function LayerDiagram({ layers }: { layers: string[] }) {
               aria-hidden="true"
             />
           )}
-          <motion.div
-            layout
-            initial={{ opacity: 0, scale: 0.96, y: 8 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full rounded-xl border border-border/80 bg-bg/80 px-4 py-3 text-center text-sm font-medium text-foreground backdrop-blur-sm md:text-base"
-          >
-            {layer}
-          </motion.div>
+          {lightMotion ? (
+            <div className={layerClass}>{layer}</div>
+          ) : (
+            <motion.div
+              layout
+              initial={{ opacity: 0, scale: 0.96, y: 8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className={layerClass}
+            >
+              {layer}
+            </motion.div>
+          )}
         </div>
       ))}
     </div>

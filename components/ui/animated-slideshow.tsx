@@ -7,12 +7,13 @@ import {
   motion,
   useReducedMotion,
 } from "motion/react";
+import { useLightMotion } from "@/lib/hooks/use-light-motion";
+import { optimizeImageUrl } from "@/lib/utils/image-url";
 import { cn } from "@/lib/utils";
 
 interface TextStaggerHoverProps {
   text: string;
   index: number;
-  /** Adds per-character spacing so stagger animation does not overlap glyphs. */
   characterGap?: boolean;
 }
 
@@ -71,20 +72,41 @@ export const TextStaggerHover = React.forwardRef<
   React.HTMLAttributes<HTMLSpanElement> & TextStaggerHoverProps
 >(({ text, index, characterGap = false, className, ...props }, ref) => {
   const reduce = useReducedMotion();
+  const lightMotion = useLightMotion();
   const { activeSlide, changeSlide } = useHoverSliderContext();
   const { characters } = splitText(text);
   const isActive = activeSlide === index;
+
+  const activate = () => changeSlide(index);
+
+  if (lightMotion) {
+    return (
+      <button
+        type="button"
+        ref={ref as React.Ref<HTMLButtonElement>}
+        onClick={activate}
+        className={cn(
+          "block w-full text-left transition-opacity duration-300",
+          isActive ? "opacity-100" : "opacity-40",
+          className,
+        )}
+        {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+      >
+        {text}
+      </button>
+    );
+  }
 
   return (
     <span
       ref={ref}
       className={cn(
-        "relative block w-full origin-bottom max-md:whitespace-normal md:whitespace-nowrap",
+        "relative block w-full origin-bottom whitespace-nowrap",
         characterGap && "tracking-normal md:tracking-wide",
         className,
       )}
-      onMouseEnter={() => changeSlide(index)}
-      onFocus={() => changeSlide(index)}
+      onMouseEnter={activate}
+      onFocus={activate}
       tabIndex={0}
       role="button"
       {...props}
@@ -173,13 +195,32 @@ export const HoverSliderImage = React.forwardRef<
   HTMLMotionProps<"img"> & HoverSliderImageProps
 >(({ index, imageUrl, className, alt = "", ...props }, ref) => {
   const reduce = useReducedMotion();
+  const lightMotion = useLightMotion();
   const { activeSlide } = useHoverSliderContext();
   const visible = activeSlide === index;
+  const src = lightMotion ? optimizeImageUrl(imageUrl, 720) : imageUrl;
+
+  if (lightMotion) {
+    return (
+      <img
+        ref={ref}
+        src={src}
+        alt={alt}
+        className={cn(
+          "size-full object-cover object-center transition-opacity duration-500",
+          visible ? "opacity-100" : "opacity-0",
+          className,
+        )}
+        loading={index === 0 ? "eager" : "lazy"}
+        decoding="async"
+      />
+    );
+  }
 
   return (
     <motion.img
       ref={ref}
-      src={imageUrl}
+      src={src}
       alt={alt}
       className={cn("size-full object-cover object-center", className)}
       transition={{ ease: [0.33, 1, 0.68, 1], duration: reduce ? 0 : 0.8 }}

@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useLightMotion } from "@/lib/hooks/use-light-motion";
 import { cn } from "@/lib/utils";
 
 export interface ScrollReelTestimonial {
@@ -129,6 +130,8 @@ export function ScrollReelTestimonials({
   autoPlayIntervalMs = 5500,
   pauseOnHover = true,
 }: ScrollReelTestimonialsProps) {
+  const lightMotion = useLightMotion();
+  const effectiveAutoPlay = autoPlay && !lightMotion;
   const [index, setIndex] = React.useState(0);
   const [displayIndex, setDisplayIndex] = React.useState(0);
   const [exiting, setExiting] = React.useState(false);
@@ -177,7 +180,7 @@ export function ScrollReelTestimonials({
   paginateRef.current = paginate;
 
   React.useEffect(() => {
-    if (!autoPlay || count <= 1 || paused) return;
+    if (!effectiveAutoPlay || count <= 1 || paused) return;
 
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (mq.matches) return;
@@ -195,7 +198,7 @@ export function ScrollReelTestimonials({
       window.clearInterval(intervalId);
       mq.removeEventListener("change", onMotionChange);
     };
-  }, [autoPlay, autoPlayIntervalMs, count, paused]);
+  }, [effectiveAutoPlay, autoPlayIntervalMs, count, paused]);
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowRight") {
@@ -323,24 +326,34 @@ export function ScrollReelTestimonials({
               key={displayIndex}
               className={cn(
                 "absolute inset-x-0 top-0 flex flex-col gap-[19px] will-change-[transform,opacity]",
-                exiting && "scroll-reel-exit"
+                exiting && !lightMotion && "scroll-reel-exit",
+                lightMotion && "transition-opacity duration-300",
+                lightMotion && exiting && "opacity-0",
               )}
             >
               <p className={QUOTE_CLASSES}>
-                <Chars
-                  text={current.quote}
-                  startIndex={0}
-                  staggerMs={charStaggerMs}
-                  exiting={exiting}
-                />
+                {lightMotion ? (
+                  current.quote
+                ) : (
+                  <Chars
+                    text={current.quote}
+                    startIndex={0}
+                    staggerMs={charStaggerMs}
+                    exiting={exiting}
+                  />
+                )}
               </p>
               <p className={AUTHOR_CLASSES}>
-                <Chars
-                  text={current.author}
-                  startIndex={current.quote.length + 6}
-                  staggerMs={charStaggerMs}
-                  exiting={exiting}
-                />
+                {lightMotion ? (
+                  current.author
+                ) : (
+                  <Chars
+                    text={current.author}
+                    startIndex={current.quote.length + 6}
+                    staggerMs={charStaggerMs}
+                    exiting={exiting}
+                  />
+                )}
               </p>
             </div>
           </div>
