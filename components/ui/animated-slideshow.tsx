@@ -8,6 +8,7 @@ import {
   useReducedMotion,
 } from "motion/react";
 import { useLightMotion } from "@/lib/hooks/use-light-motion";
+import { mergeRefs, useViewportAnimation } from "@/lib/hooks/use-viewport-animation";
 import { optimizeImageUrl } from "@/lib/utils/image-url";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +26,7 @@ interface HoverSliderImageProps {
 type HoverSliderContextValue = {
   activeSlide: number;
   changeSlide: (index: number) => void;
+  viewportActive: boolean;
 };
 
 function splitText(text: string) {
@@ -52,14 +54,24 @@ export const HoverSlider = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ children, className, ...props }, ref) => {
   const [activeSlide, setActiveSlide] = React.useState(0);
+  const { ref: viewportRef, shouldAnimate } = useViewportAnimation({
+    rootMargin: "120px",
+    unloadDelayMs: 1500,
+  });
   const changeSlide = React.useCallback(
     (index: number) => setActiveSlide(index),
     [],
   );
 
   return (
-    <HoverSliderContext.Provider value={{ activeSlide, changeSlide }}>
-      <div ref={ref} className={className} {...props}>
+    <HoverSliderContext.Provider
+      value={{ activeSlide, changeSlide, viewportActive: shouldAnimate }}
+    >
+      <div
+        ref={mergeRefs(ref, viewportRef)}
+        className={className}
+        {...props}
+      >
         {children}
       </div>
     </HoverSliderContext.Provider>
@@ -72,8 +84,8 @@ export const TextStaggerHover = React.forwardRef<
   React.HTMLAttributes<HTMLSpanElement> & TextStaggerHoverProps
 >(({ text, index, characterGap = false, className, ...props }, ref) => {
   const reduce = useReducedMotion();
-  const lightMotion = useLightMotion();
-  const { activeSlide, changeSlide } = useHoverSliderContext();
+  const { activeSlide, changeSlide, viewportActive } = useHoverSliderContext();
+  const lightMotion = useLightMotion(viewportActive);
   const { characters } = splitText(text);
   const isActive = activeSlide === index;
 
@@ -86,7 +98,7 @@ export const TextStaggerHover = React.forwardRef<
         ref={ref as React.Ref<HTMLButtonElement>}
         onClick={activate}
         className={cn(
-          "block w-full text-left transition-[opacity,transform] duration-300",
+          "block w-full text-left transition-[opacity,transform] duration-500 ease-out",
           isActive ? "scale-[1.01] opacity-100" : "opacity-[0.32]",
           className,
         )}
@@ -195,8 +207,8 @@ export const HoverSliderImage = React.forwardRef<
   HTMLMotionProps<"img"> & HoverSliderImageProps
 >(({ index, imageUrl, className, alt = "", ...props }, ref) => {
   const reduce = useReducedMotion();
-  const lightMotion = useLightMotion();
-  const { activeSlide } = useHoverSliderContext();
+  const { activeSlide, viewportActive } = useHoverSliderContext();
+  const lightMotion = useLightMotion(viewportActive);
   const visible = activeSlide === index;
   const src = lightMotion ? optimizeImageUrl(imageUrl, 960) : imageUrl;
 
@@ -207,7 +219,7 @@ export const HoverSliderImage = React.forwardRef<
         src={src}
         alt={alt}
         className={cn(
-          "size-full object-cover object-center transition-opacity duration-500",
+          "size-full object-cover object-center transition-opacity duration-700 ease-out",
           visible ? "opacity-100" : "opacity-0",
           className,
         )}

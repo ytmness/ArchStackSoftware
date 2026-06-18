@@ -10,6 +10,7 @@ interface GooeyTextProps {
   cooldownTime?: number;
   className?: string;
   textClassName?: string;
+  paused?: boolean;
 }
 
 export function GooeyText({
@@ -18,6 +19,7 @@ export function GooeyText({
   cooldownTime = 0.25,
   className,
   textClassName,
+  paused = false,
 }: GooeyTextProps) {
   const reduceMotion = useReducedMotion();
   const filterId = React.useId().replace(/:/g, "");
@@ -32,7 +34,7 @@ export function GooeyText({
   );
 
   React.useEffect(() => {
-    if (reduceMotion || texts.length <= 1) {
+    if (reduceMotion || texts.length <= 1 || paused) {
       setLiveText(texts[0] ?? "");
       return;
     }
@@ -118,7 +120,7 @@ export function GooeyText({
     animate();
 
     return () => cancelAnimationFrame(frameId);
-  }, [texts, morphTime, cooldownTime, reduceMotion]);
+  }, [texts, morphTime, cooldownTime, reduceMotion, paused]);
 
   if (reduceMotion || texts.length <= 1) {
     return (

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useLightMotion } from "@/lib/hooks/use-light-motion";
+import { useViewportAnimation } from "@/lib/hooks/use-viewport-animation";
 import { cn } from "@/lib/utils";
 
 export interface ScrollReelTestimonial {
@@ -130,8 +131,12 @@ export function ScrollReelTestimonials({
   autoPlayIntervalMs = 5500,
   pauseOnHover = true,
 }: ScrollReelTestimonialsProps) {
-  const lightMotion = useLightMotion();
-  const effectiveAutoPlay = autoPlay;
+  const { ref, shouldAnimate } = useViewportAnimation({
+    rootMargin: "100px",
+    unloadDelayMs: 1500,
+  });
+  const lightMotion = useLightMotion(shouldAnimate);
+  const effectiveAutoPlay = autoPlay && shouldAnimate;
   const [index, setIndex] = React.useState(0);
   const [displayIndex, setDisplayIndex] = React.useState(0);
   const [exiting, setExiting] = React.useState(false);
@@ -238,6 +243,7 @@ export function ScrollReelTestimonials({
 
   return (
     <div
+      ref={ref as React.RefObject<HTMLDivElement>}
       role="region"
       aria-roledescription="carousel"
       aria-label="Testimonials"

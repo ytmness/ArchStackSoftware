@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
 import { ArrowRight, Zap } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
@@ -9,6 +10,7 @@ import { AetherFlowBackground } from "@/components/ui/aether-flow-background";
 import { Button } from "@/components/ui/button";
 import { GooeyText } from "@/components/ui/gooey-text-morphing";
 import { useLightMotion } from "@/lib/hooks/use-light-motion";
+import { useViewportAnimation } from "@/lib/hooks/use-viewport-animation";
 
 type MarketingHeroProps = {
   locale: Locale;
@@ -30,7 +32,11 @@ const fadeUp = {
 
 export function MarketingHero({ locale, dict }: MarketingHeroProps) {
   const reduce = useReducedMotion();
-  const lightMotion = useLightMotion();
+  const { ref, shouldAnimate, isPaused } = useViewportAnimation({
+    rootMargin: "0px",
+    unloadDelayMs: 2000,
+  });
+  const lightMotion = useLightMotion(shouldAnimate);
   const variants = reduce
     ? {
         hidden: { opacity: 0 },
@@ -39,7 +45,10 @@ export function MarketingHero({ locale, dict }: MarketingHeroProps) {
     : fadeUp;
 
   return (
-    <section className="relative flex min-h-[92vh] w-full flex-col items-center justify-center overflow-hidden md:min-h-screen">
+    <section
+      ref={ref as React.RefObject<HTMLElement>}
+      className="relative flex min-h-[92vh] w-full flex-col items-center justify-center overflow-hidden md:min-h-screen"
+    >
       <div className="absolute inset-0 z-0">
         <AetherFlowBackground />
       </div>
@@ -57,7 +66,7 @@ export function MarketingHero({ locale, dict }: MarketingHeroProps) {
             <div className="h-5 overflow-hidden md:h-6">
               <p className="sr-only">{dict.hero.eyebrow}</p>
               {lightMotion ? (
-                <span className="text-xs font-medium uppercase tracking-[0.2em] text-primary/95 md:text-sm">
+                <span className="text-xs font-medium uppercase tracking-[0.2em] text-primary/95 transition-opacity duration-500 md:text-sm">
                   {dict.hero.eyebrow}
                 </span>
               ) : (
@@ -65,6 +74,7 @@ export function MarketingHero({ locale, dict }: MarketingHeroProps) {
                   texts={dict.hero.gooeyEyebrowTexts}
                   morphTime={1.2}
                   cooldownTime={0.35}
+                  paused={isPaused}
                   textClassName="text-xs font-medium uppercase tracking-[0.2em] text-primary/95 md:text-sm"
                 />
               )}
@@ -82,7 +92,7 @@ export function MarketingHero({ locale, dict }: MarketingHeroProps) {
           <span className="sr-only">{dict.hero.title}</span>
           <div className="overflow-hidden py-1 [contain:paint]">
             {lightMotion ? (
-              <span className="text-5xl font-bold leading-[1.04] tracking-tighter text-foreground sm:text-6xl md:text-7xl lg:text-[4.5rem]">
+              <span className="text-5xl font-bold leading-[1.04] tracking-tighter text-foreground transition-opacity duration-500 sm:text-6xl md:text-7xl lg:text-[4.5rem]">
                 {dict.hero.title}
               </span>
             ) : (
@@ -90,6 +100,7 @@ export function MarketingHero({ locale, dict }: MarketingHeroProps) {
                 texts={dict.hero.gooeyTitleTexts}
                 morphTime={1.4}
                 cooldownTime={0.4}
+                paused={isPaused}
                 textClassName="text-5xl font-bold leading-[1.04] tracking-tighter text-foreground sm:text-6xl md:text-7xl lg:text-[4.5rem]"
               />
             )}

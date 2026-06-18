@@ -9,7 +9,7 @@ import {
   Smartphone,
 } from "lucide-react";
 import { motion } from "motion/react";
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode, type RefObject } from "react";
 import type { Dictionary } from "@/content/dictionaries/es";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -19,6 +19,7 @@ import {
   type ArchitectureModule,
 } from "@/lib/data/modules";
 import { useLightMotion } from "@/lib/hooks/use-light-motion";
+import { useViewportAnimation } from "@/lib/hooks/use-viewport-animation";
 import { cn } from "@/lib/utils";
 
 const moduleIcons: Record<string, ReactNode> = {
@@ -36,14 +37,16 @@ function ModuleCard({
   onToggle,
   includedLabel,
   addLabel,
+  viewportActive,
 }: {
   module: ArchitectureModule;
   selected: boolean;
   onToggle: () => void;
   includedLabel: string;
   addLabel: string;
+  viewportActive: boolean;
 }) {
-  const lightMotion = useLightMotion();
+  const lightMotion = useLightMotion(viewportActive);
 
   return (
     <button
@@ -89,8 +92,14 @@ function ModuleCard({
   );
 }
 
-function LayerDiagram({ layers }: { layers: string[] }) {
-  const lightMotion = useLightMotion();
+function LayerDiagram({
+  layers,
+  viewportActive,
+}: {
+  layers: string[];
+  viewportActive: boolean;
+}) {
+  const lightMotion = useLightMotion(viewportActive);
   const layerClass =
     "w-full rounded-xl border border-border/80 bg-bg/80 px-4 py-3 text-center text-sm font-medium text-foreground backdrop-blur-sm md:text-base";
 
@@ -128,6 +137,10 @@ type ArchitectureBuilderProps = {
 };
 
 export function ArchitectureBuilder({ dict }: ArchitectureBuilderProps) {
+  const { ref, shouldAnimate } = useViewportAnimation({
+    rootMargin: "100px",
+    unloadDelayMs: 1500,
+  });
   const [active, setActive] = useState<string[]>(["web", "admin"]);
   const modules = getArchitectureModules(dict);
   const layers = useMemo(
@@ -143,6 +156,7 @@ export function ArchitectureBuilder({ dict }: ArchitectureBuilderProps) {
 
   return (
     <section
+      ref={ref as RefObject<HTMLElement>}
       id="builder"
       className="scroll-mt-24 border-y border-border bg-gradient-to-b from-bg via-surface/20 to-bg py-20 md:py-32"
     >
@@ -168,6 +182,7 @@ export function ArchitectureBuilder({ dict }: ArchitectureBuilderProps) {
                   onToggle={() => toggle(module.id)}
                   includedLabel={dict.builder.moduleIncluded}
                   addLabel={dict.builder.moduleAdd}
+                  viewportActive={shouldAnimate}
                 />
               ))}
             </div>
@@ -184,7 +199,7 @@ export function ArchitectureBuilder({ dict }: ArchitectureBuilderProps) {
               <p className="mb-6 text-xs font-medium uppercase tracking-[0.2em] text-primary/80">
                 {dict.builder.previewLabel}
               </p>
-              <LayerDiagram layers={layers} />
+              <LayerDiagram layers={layers} viewportActive={shouldAnimate} />
             </div>
           </div>
         </div>

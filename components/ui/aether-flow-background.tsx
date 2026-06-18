@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import { useReducedMotion } from "motion/react";
-import { useMediaQuery } from "@/lib/hooks/use-media-query";
+import { useViewportAnimation } from "@/lib/hooks/use-viewport-animation";
+import { cn } from "@/lib/utils";
 
 const PARTICLE_COLOR = "rgba(56, 189, 248, 0.75)";
 const BG_COLOR = "#050505";
@@ -16,11 +17,7 @@ type Particle = {
   color: string;
 };
 
-function createParticle(
-  canvas: HTMLCanvasElement,
-  width: number,
-  height: number,
-): Particle {
+function createParticle(width: number, height: number): Particle {
   const size = Math.random() * 2 + 1;
   return {
     x: Math.random() * (width - size * 4) + size * 2,
@@ -32,44 +29,80 @@ function createParticle(
   };
 }
 
+function StaticBackdrop() {
+  return (
+    <>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_-10%,rgba(56,189,248,0.18),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_80%_80%,rgba(37,99,235,0.08),transparent_55%)]" />
+      <div
+        className="absolute inset-0 opacity-[0.35]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }}
+      />
+    </>
+  );
+}
+
 export function AetherFlowBackground() {
   const reduce = useReducedMotion();
-  const isMobile = useMediaQuery("(max-width: 767px)");
+  const { ref, shouldAnimate, isPaused } = useViewportAnimation({
+    rootMargin: "0px",
+    unloadDelayMs: 2000,
+  });
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
-  const containerRef = React.useRef<HTMLDivElement>(null);
+  const pausedRef = React.useRef(isPaused);
+  const [canvasReady, setCanvasReady] = React.useState(false);
+
+  pausedRef.current = isPaused;
 
   React.useEffect(() => {
-    if (reduce || isMobile) return;
+    if (reduce || !shouldAnimate) {
+      setCanvasReady(false);
+      return;
+    }
 
     const canvas = canvasRef.current;
-    const container = containerRef.current;
+    const container = ref.current;
     if (!canvas || !container) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const maxParticles = isMobile ? 22 : 48;
+    const densityDivisor = isMobile ? 18000 : 12000;
+
     let animationFrameId = 0;
     let particles: Particle[] = [];
-    const mouse = { x: null as number | null, y: null as number | null, radius: 180 };
+    const mouse = {
+      x: null as number | null,
+      y: null as number | null,
+      radius: isMobile ? 0 : 180,
+    };
 
     const init = (width: number, height: number) => {
       particles = [];
-      const density = Math.floor((height * width) / 12000);
-      const count = Math.min(48, Math.max(16, density));
+      const density = Math.floor((height * width) / densityDivisor);
+      const count = Math.min(maxParticles, Math.max(12, density));
       for (let i = 0; i < count; i++) {
-        particles.push(createParticle(canvas, width, height));
+        particles.push(createParticle(width, height));
       }
     };
 
     const resize = () => {
       const rect = container.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
       canvas.width = Math.floor(rect.width * dpr);
       canvas.height = Math.floor(rect.height * dpr);
       canvas.style.width = `${rect.width}px`;
       canvas.style.height = `${rect.height}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       init(rect.width, rect.height);
+      setCanvasReady(true);
     };
 
     const drawParticle = (p: Particle) => {
@@ -83,7 +116,7 @@ export function AetherFlowBackground() {
       if (p.x > width || p.x < 0) p.directionX = -p.directionX;
       if (p.y > height || p.y < 0) p.directionY = -p.directionY;
 
-      if (mouse.x !== null && mouse.y !== null) {
+      if (!isCoarsePointer && mouse.x !== null && mouse.y !== null) {
         const dx = mouse.x - p.x;
         const dy = mouse.y - p.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
@@ -112,14 +145,7 @@ export function AetherFlowBackground() {
 
           if (distance < threshold) {
             const opacity = 1 - distance / 20000;
-            const dxMouse = particles[a].x - (mouse.x ?? -9999);
-            const dyMouse = particles[a].y - (mouse.y ?? -9999);
-            const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
-
-            ctx.strokeStyle =
-              mouse.x !== null && distMouse < mouse.radius
-                ? `rgba(125, 211, 252, ${opacity})`
-                : `rgba(37, 99, 235, ${opacity * 0.9})`;
+            ctx.strokeStyle = `rgba(37, 99, 235, ${opacity * 0.9})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(particles[a].x, particles[a].y);
@@ -131,6 +157,11 @@ export function AetherFlowBackground() {
     };
 
     const animate = () => {
+      if (pausedRef.current) {
+        animationFrameId = requestAnimationFrame(animate);
+        return;
+      }
+
       const rect = container.getBoundingClientRect();
       const width = rect.width;
       const height = rect.height;
@@ -147,6 +178,7 @@ export function AetherFlowBackground() {
     };
 
     const handleMouseMove = (event: MouseEvent) => {
+      if (isCoarsePointer) return;
       const rect = container.getBoundingClientRect();
       mouse.x = event.clientX - rect.left;
       mouse.y = event.clientY - rect.top;
@@ -162,41 +194,53 @@ export function AetherFlowBackground() {
 
     const ro = new ResizeObserver(resize);
     ro.observe(container);
-    container.addEventListener("mousemove", handleMouseMove);
-    container.addEventListener("mouseleave", handleMouseOut);
+    if (!isCoarsePointer) {
+      container.addEventListener("mousemove", handleMouseMove);
+      container.addEventListener("mouseleave", handleMouseOut);
+    }
 
     return () => {
       ro.disconnect();
-      container.removeEventListener("mousemove", handleMouseMove);
-      container.removeEventListener("mouseleave", handleMouseOut);
+      if (!isCoarsePointer) {
+        container.removeEventListener("mousemove", handleMouseMove);
+        container.removeEventListener("mouseleave", handleMouseOut);
+      }
       cancelAnimationFrame(animationFrameId);
+      setCanvasReady(false);
     };
-  }, [reduce, isMobile]);
+  }, [reduce, shouldAnimate, ref]);
 
-  if (reduce || isMobile) {
+  if (reduce) {
     return (
       <div
-        ref={containerRef}
+        ref={ref as React.RefObject<HTMLDivElement>}
         className="pointer-events-none absolute inset-0 bg-bg"
         aria-hidden
       >
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_-10%,rgba(56,189,248,0.18),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_80%_80%,rgba(37,99,235,0.08),transparent_55%)]" />
-        <div
-          className="absolute inset-0 opacity-[0.35]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
-          }}
-        />
+        <StaticBackdrop />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_40%,transparent_40%,rgba(5,5,5,0.85)_100%)]" />
       </div>
     );
   }
 
   return (
-    <div ref={containerRef} className="absolute inset-0 h-full w-full" aria-hidden>
-      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+    <div
+      ref={ref as React.RefObject<HTMLDivElement>}
+      className="pointer-events-none absolute inset-0 h-full w-full"
+      aria-hidden
+    >
+      <div className="absolute inset-0 bg-bg">
+        <StaticBackdrop />
+      </div>
+      {shouldAnimate && (
+        <canvas
+          ref={canvasRef}
+          className={cn(
+            "absolute inset-0 h-full w-full transition-opacity duration-700 ease-out",
+            canvasReady ? "opacity-100" : "opacity-0",
+          )}
+        />
+      )}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_40%,transparent_40%,rgba(5,5,5,0.85)_100%)]" />
     </div>
   );
