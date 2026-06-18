@@ -12,7 +12,6 @@ import {
   Workflow,
 } from "lucide-react";
 import type { Dictionary } from "@/content/dictionaries/es";
-import { useMediaQuery } from "@/lib/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 
 const Warp = dynamic(
@@ -157,18 +156,35 @@ function StaticShaderBackground({
   );
 }
 
-function FeatureCard({
-  feature,
-  index,
-  enableShader,
-}: {
-  feature: Feature;
-  index: number;
-  enableShader: boolean;
-}) {
+function FeatureCard({ feature, index }: { feature: Feature; index: number }) {
+  const reduce = useReducedMotion();
+  const cardRef = React.useRef<HTMLDivElement>(null);
+  const [enableShader, setEnableShader] = React.useState(false);
+
+  React.useEffect(() => {
+    if (reduce) return;
+
+    const node = cardRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setEnableShader(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "120px", threshold: 0.12 },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [reduce]);
+
   return (
     <div
-      className="feature-shader-card group relative min-h-[18rem] rounded-3xl sm:h-80"
+      ref={cardRef}
+      className="feature-shader-card group relative h-80 rounded-3xl"
       style={{
         ["--feature-glow" as string]: feature.glow,
         ["--feature-ring" as string]: feature.ring,
@@ -205,7 +221,7 @@ function FeatureCard({
 
       <div
         className={cn(
-          "relative z-10 flex h-full flex-col rounded-3xl border p-6 backdrop-blur-[6px] sm:p-7",
+          "relative z-10 flex h-full flex-col rounded-3xl border p-7 backdrop-blur-[6px]",
           "border-white/15 bg-gradient-to-br from-bg/50 via-bg/35 to-bg/55",
           "transition-colors duration-500 group-hover:border-white/25 group-hover:from-bg/40",
         )}
@@ -227,45 +243,11 @@ function FeatureCard({
 
 export function FeatureShaderGrid({ dict }: { dict: Dictionary }) {
   const features = buildFeatures(dict);
-  const reduce = useReducedMotion();
-  const isDesktop = useMediaQuery("(min-width: 768px)");
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const [inView, setInView] = React.useState(false);
-
-  React.useEffect(() => {
-    if (!isDesktop || reduce) return;
-
-    const node = containerRef.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "160px" },
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [isDesktop, reduce]);
-
-  const enableShader = isDesktop && !reduce && inView;
 
   return (
-    <div
-      ref={containerRef}
-      className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
-    >
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {features.map((feature, index) => (
-        <FeatureCard
-          key={feature.title}
-          feature={feature}
-          index={index}
-          enableShader={enableShader}
-        />
+        <FeatureCard key={feature.title} feature={feature} index={index} />
       ))}
     </div>
   );
