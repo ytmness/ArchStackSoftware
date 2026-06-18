@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import { isValidLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -6,38 +5,7 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { Container } from "@/components/ui/container";
 import { Services } from "@/components/sections/services";
 import { Reveal } from "@/components/motion/reveal";
-
-const ServicesHoverSlider = dynamic(
-  () =>
-    import("@/components/marketing/services-hover-slider").then(
-      (m) => m.ServicesHoverSlider,
-    ),
-  { loading: () => <div className="h-96 animate-pulse bg-surface" /> },
-);
-
-const ArchitectureBuilder = dynamic(
-  () =>
-    import("@/components/sections/architecture-builder").then(
-      (m) => m.ArchitectureBuilder,
-    ),
-  { loading: () => <div className="h-96 animate-pulse bg-surface" /> },
-);
-
-const FeatureShaderCards = dynamic(
-  () =>
-    import("@/components/ui/feature-shader-cards").then(
-      (m) => m.FeatureShaderCards,
-    ),
-  { loading: () => <div className="h-96 animate-pulse bg-surface" /> },
-);
-
-const Skills3DShowcase = dynamic(
-  () =>
-    import("@/components/marketing/skills-3d-showcase").then(
-      (m) => m.Skills3DShowcase,
-    ),
-  { loading: () => <div className="h-96 animate-pulse bg-surface" /> },
-);
+import { DeferredServicesSections } from "@/components/marketing/deferred-services-sections";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -76,10 +44,7 @@ export default async function ServicesPage({ params }: Props) {
         </Container>
       </section>
 
-      <Skills3DShowcase locale={raw} dict={dict} />
-      <FeatureShaderCards dict={dict} />
-      <ServicesHoverSlider dict={dict} />
-      <ArchitectureBuilder dict={dict} />
+      <DeferredServicesSections dict={dict} />
       <Services />
     </>
   );

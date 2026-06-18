@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useReducedMotion } from "motion/react";
+import { useMediaQuery } from "@/lib/hooks/use-media-query";
 
 const PARTICLE_COLOR = "rgba(56, 189, 248, 0.75)";
 const BG_COLOR = "#050505";
@@ -33,11 +34,12 @@ function createParticle(
 
 export function AetherFlowBackground() {
   const reduce = useReducedMotion();
+  const isMobile = useMediaQuery("(max-width: 767px)");
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    if (reduce) return;
+    if (reduce || isMobile) return;
 
     const canvas = canvasRef.current;
     const container = containerRef.current;
@@ -52,7 +54,8 @@ export function AetherFlowBackground() {
 
     const init = (width: number, height: number) => {
       particles = [];
-      const count = Math.max(24, Math.floor((height * width) / 9000));
+      const density = Math.floor((height * width) / 12000);
+      const count = Math.min(48, Math.max(16, density));
       for (let i = 0; i < count; i++) {
         particles.push(createParticle(canvas, width, height));
       }
@@ -168,9 +171,9 @@ export function AetherFlowBackground() {
       container.removeEventListener("mouseleave", handleMouseOut);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [reduce]);
+  }, [reduce, isMobile]);
 
-  if (reduce) {
+  if (reduce || isMobile) {
     return (
       <div
         ref={containerRef}

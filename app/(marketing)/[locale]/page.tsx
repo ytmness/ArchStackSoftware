@@ -1,67 +1,14 @@
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import { isValidLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { getPublishedProjects } from "@/lib/supabase/queries/projects";
 import { MarketingHero } from "@/components/marketing/hero-section";
 import { TrustStripSection } from "@/components/marketing/trust-strip-section";
+import { DeferredHomeSections } from "@/components/marketing/deferred-home-sections";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/motion/reveal";
-
-const ServicesHoverSlider = dynamic(
-  () =>
-    import("@/components/marketing/services-hover-slider").then(
-      (m) => m.ServicesHoverSlider,
-    ),
-  { loading: () => <div className="h-96 animate-pulse bg-surface" /> },
-);
-
-const ArchitectureBuilder = dynamic(
-  () =>
-    import("@/components/sections/architecture-builder").then(
-      (m) => m.ArchitectureBuilder,
-    ),
-  { loading: () => <div className="h-96 animate-pulse bg-surface" /> },
-);
-
-const Skills3DShowcase = dynamic(
-  () =>
-    import("@/components/marketing/skills-3d-showcase").then(
-      (m) => m.Skills3DShowcase,
-    ),
-  { loading: () => <div className="h-96 animate-pulse bg-surface" /> },
-);
-
-const FeatureShaderCards = dynamic(
-  () =>
-    import("@/components/ui/feature-shader-cards").then(
-      (m) => m.FeatureShaderCards,
-    ),
-  { loading: () => <div className="h-96 animate-pulse bg-surface" /> },
-);
-
-const FeaturedProjects = dynamic(
-  () =>
-    import("@/components/marketing/featured-projects").then(
-      (m) => m.FeaturedProjects,
-    ),
-  { loading: () => <div className="h-96 animate-pulse bg-surface" /> },
-);
-
-const Testimonials = dynamic(
-  () =>
-    import("@/components/marketing/testimonials-section").then(
-      (m) => m.TestimonialsSection,
-    ),
-  { loading: () => <div className="h-80 animate-pulse bg-surface" /> },
-);
-
-const Process = dynamic(
-  () => import("@/components/sections/process").then((m) => m.Process),
-  { loading: () => <div className="h-64 animate-pulse bg-surface" /> },
-);
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -77,16 +24,8 @@ export default async function HomePage({ params }: Props) {
 
       <TrustStripSection stackLabel={dict.stackTools.label} />
 
-      <Skills3DShowcase locale={raw} dict={dict} />
-      <FeatureShaderCards dict={dict} />
-      <ArchitectureBuilder dict={dict} />
+      <DeferredHomeSections locale={raw} dict={dict} projects={projects} />
 
-      <FeaturedProjects locale={raw} dict={dict} projects={projects} />
-
-      <ServicesHoverSlider dict={dict} />
-      <Testimonials dict={dict} />
-
-      <Process locale={raw} dict={dict} />
       <section className="border-t border-border py-20">
         <Container>
           <Reveal>
