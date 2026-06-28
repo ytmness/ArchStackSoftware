@@ -112,7 +112,7 @@ function ScrollDevice({
           transformOrigin: "50% 96%",
           transformStyle: "preserve-3d",
           boxShadow:
-            "0 0 0 1px rgba(56,189,248,0.22), 0 30px 70px -12px rgba(0,0,0,0.65), 0 50px 100px -24px rgba(37,99,235,0.28)",
+            "0 0 0 1px rgba(248,113,113,0.22), 0 30px 70px -12px rgba(0,0,0,0.65), 0 50px 100px -24px rgba(220,38,38,0.28)",
         }}
         className="relative z-10 h-[26rem] w-full overflow-hidden rounded-[26px] border border-[#3d4f66]/90 bg-[#0f141c] p-2 md:h-[34rem] md:rounded-[32px] md:p-3"
       >
@@ -128,7 +128,7 @@ function ScrollDevice({
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -bottom-3 left-1/2 z-0 h-px w-[72%] -translate-x-1/2 bg-gradient-to-r from-transparent via-sky-400/40 to-transparent md:-bottom-4"
+        className="pointer-events-none absolute -bottom-3 left-1/2 z-0 h-px w-[72%] -translate-x-1/2 bg-gradient-to-r from-transparent via-red-400/40 to-transparent md:-bottom-4"
       />
     </div>
   );

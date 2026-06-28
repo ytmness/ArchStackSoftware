@@ -18,7 +18,7 @@ export const caseStudies: CaseStudy[] = [
       "Unificamos flujos en una sola plataforma con trazabilidad completa y reducción del 60% en tiempo de procesamiento.",
     stack: ["Next.js", "NestJS", "Postgres", "Redis"],
     metric: "-60% tiempo de procesamiento",
-    gradient: "from-cyan-500/20 via-blue-600/10 to-transparent",
+    gradient: "from-red-500/20 via-red-600/10 to-transparent",
   },
   {
     id: "saas-analytics",

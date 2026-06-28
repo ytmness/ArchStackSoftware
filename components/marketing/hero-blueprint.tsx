@@ -36,8 +36,8 @@ export function HeroBlueprint() {
         <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg" aria-hidden>
           <defs>
             <radialGradient id="bpGlow" cx="50%" cy="45%" r="55%">
-              <stop offset="0%" stopColor="rgba(56,189,248,0.2)" />
-              <stop offset="100%" stopColor="rgba(56,189,248,0)" />
+              <stop offset="0%" stopColor="rgba(248,113,113,0.2)" />
+              <stop offset="100%" stopColor="rgba(248,113,113,0)" />
             </radialGradient>
           </defs>
           <rect width="100%" height="100%" fill="url(#bpGlow)" />
@@ -54,14 +54,14 @@ export function HeroBlueprint() {
                 cx={`${cx}%`}
                 cy={`${cy}%`}
                 r="5"
-                fill="rgba(56,189,248,0.6)"
+                fill="rgba(248,113,113,0.6)"
               />
               <circle
                 cx={`${cx}%`}
                 cy={`${cy}%`}
                 r="14"
                 fill="none"
-                stroke="rgba(56,189,248,0.2)"
+                stroke="rgba(248,113,113,0.2)"
                 strokeWidth="1"
               />
             </g>
@@ -80,7 +80,7 @@ export function HeroBlueprint() {
               y1={a.split(" ")[1]}
               x2={b.split(" ")[0]}
               y2={b.split(" ")[1]}
-              stroke="rgba(125,211,252,0.22)"
+              stroke="rgba(252,165,165,0.22)"
               strokeWidth="1"
               strokeDasharray="4 6"
             />

@@ -56,7 +56,7 @@ function ModuleCard({
       className={cn(
         "group relative flex items-start gap-4 rounded-2xl border p-4 text-left transition-all duration-300 md:p-5",
         selected
-          ? "border-primary/40 bg-primary/10 shadow-[0_0_0_1px_rgba(var(--primary-rgb,56,189,248),0.15)]"
+          ? "border-primary/40 bg-primary/10 shadow-[0_0_0_1px_rgba(var(--primary-rgb,248,113,113),0.15)]"
           : "border-border bg-surface/40 hover:border-border/80 hover:bg-surface/70",
       )}
     >

@@ -50,7 +50,7 @@ export function ParticlesBackground() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(124,226,255,0.3)";
+        ctx.fillStyle = "rgba(248,113,113,0.3)";
         ctx.fill();
       });
 

@@ -38,7 +38,7 @@ export function HeroDevicePreview({ locale }: { locale: Locale }) {
         className="pointer-events-none absolute inset-0 opacity-70"
         style={{
           background:
-            "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(56,189,248,0.14), transparent 60%)",
+            "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(248,113,113,0.14), transparent 60%)",
         }}
         aria-hidden
       />

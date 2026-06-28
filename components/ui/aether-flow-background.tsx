@@ -5,7 +5,7 @@ import { useReducedMotion } from "motion/react";
 import { useViewportAnimation } from "@/lib/hooks/use-viewport-animation";
 import { cn } from "@/lib/utils";
 
-const PARTICLE_COLOR = "rgba(56, 189, 248, 0.75)";
+const PARTICLE_COLOR = "rgba(248, 113, 113, 0.75)";
 const BG_COLOR = "#050505";
 
 type Particle = {
@@ -32,8 +32,8 @@ function createParticle(width: number, height: number): Particle {
 function StaticBackdrop() {
   return (
     <>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_-10%,rgba(56,189,248,0.18),transparent_60%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_80%_80%,rgba(37,99,235,0.08),transparent_55%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_-10%,rgba(248,113,113,0.18),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_80%_80%,rgba(220,38,38,0.08),transparent_55%)]" />
       <div
         className="absolute inset-0 opacity-[0.35]"
         style={{
@@ -145,7 +145,7 @@ export function AetherFlowBackground() {
 
           if (distance < threshold) {
             const opacity = 1 - distance / 20000;
-            ctx.strokeStyle = `rgba(37, 99, 235, ${opacity * 0.9})`;
+            ctx.strokeStyle = `rgba(220, 38, 38, ${opacity * 0.9})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(particles[a].x, particles[a].y);

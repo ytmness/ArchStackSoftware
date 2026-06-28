@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 type GlowColor = "blue" | "purple" | "green" | "cyan";
 
 const glowColorMap: Record<GlowColor, { base: number; spread: number }> = {
-  blue: { base: 210, spread: 120 },
+  blue: { base: 0, spread: 120 },
   cyan: { base: 195, spread: 100 },
   purple: { base: 280, spread: 200 },
   green: { base: 120, spread: 160 },
