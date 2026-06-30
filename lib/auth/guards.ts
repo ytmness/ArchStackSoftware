@@ -2,31 +2,38 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
 export async function getSession() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  return user;
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.auth.getUser();
+    if (error || !data.user) return null;
+    return data.user;
+  } catch {
+    return null;
+  }
 }
 
 export async function requireAdmin() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  let supabase;
+  let user;
 
-  if (!user) {
+  try {
+    supabase = await createClient();
+    const { data, error } = await supabase.auth.getUser();
+    if (error || !data.user) {
+      redirect("/login");
+    }
+    user = data.user;
+  } catch {
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
+  const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("role")
     .eq("id", user.id)
-    .single();
+    .maybeSingle();
 
-  if (!profile || profile.role !== "admin") {
-    await supabase.auth.signOut();
+  if (profileError || !profile || profile.role !== "admin") {
     redirect("/login?error=unauthorized");
   }
 
