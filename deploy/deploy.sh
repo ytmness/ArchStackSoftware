@@ -12,6 +12,8 @@ if [ ! -d .git ]; then
   exit 1
 fi
 
+bash deploy/fix-permissions.sh
+
 if [ -f .env ]; then
   cp .env /tmp/archstack.env.backup
 fi
