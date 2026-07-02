@@ -31,7 +31,12 @@ echo "==> Deteniendo app antes del build..."
 pm2 stop archstack 2>/dev/null || true
 
 echo "==> Limpiando build anterior..."
-rm -rf .next
+if [ -d .next ]; then
+  if ! rm -rf .next 2>/dev/null; then
+    echo "==> .next requiere permisos elevados, usando sudo..."
+    sudo rm -rf .next
+  fi
+fi
 
 echo "==> Build de producción..."
 npm run build
