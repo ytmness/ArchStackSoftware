@@ -13,6 +13,7 @@ module.exports = {
       env: {
         NODE_ENV: "production",
         PORT: 3050,
+        NEXT_TELEMETRY_DISABLED: "1",
       },
     },
   ],

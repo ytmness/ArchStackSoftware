@@ -11,5 +11,5 @@ pm2 stop archstack 2>/dev/null || true
 echo "==> Prebuild: eliminando dist anterior..."
 rm -rf dist
 
-# Legacy: .next viejo con permisos incorrectos; no debe bloquear el deploy.
+# Legacy: ignorar .next viejo (puede tener permisos incorrectos).
 rm -rf .next 2>/dev/null || true

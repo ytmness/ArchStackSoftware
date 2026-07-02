@@ -31,7 +31,8 @@ echo "==> Build de producción..."
 npm run build
 
 echo "==> Reiniciando PM2..."
-pm2 reload deploy/ecosystem.config.cjs --update-env || pm2 start deploy/ecosystem.config.cjs
+pm2 delete archstack 2>/dev/null || true
+pm2 start deploy/ecosystem.config.cjs
 pm2 save
 
 echo "==> Deploy listo."
