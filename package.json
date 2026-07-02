@@ -6,6 +6,7 @@
     "dev": "next dev",
     "prebuild": "bash deploy/prebuild.sh",
     "build": "next build",
+    "postbuild": "bash deploy/postbuild.sh",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit"

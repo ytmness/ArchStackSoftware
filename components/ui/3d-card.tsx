@@ -27,7 +27,7 @@ export function Floating3DCard({
 }: Floating3DCardProps) {
   return (
     <div className={cn("w-full", className)}>
-      <GlowCard glowColor="blue" className="h-full min-h-[480px] border-primary/20 p-0">
+      <GlowCard glowColor="yellow" className="h-full min-h-[480px] border-primary/20 p-0">
         <div className="group relative flex h-full min-h-[480px] flex-col rounded-2xl bg-transparent p-6 md:p-8">
           <div
             className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-accent/5 to-accent-2/5"

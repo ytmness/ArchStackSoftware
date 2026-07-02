@@ -275,7 +275,7 @@ body {
     var(--spotlight-size) var(--spotlight-size) at
     calc(var(--x, 0) * 1px)
     calc(var(--y, 0) * 1px),
-    hsl(var(--hue, 0) 90% 65% / 0.14),
+    hsl(var(--hue, 48) 90% 65% / 0.14),
     transparent
   );
   background-color: var(--backdrop);
@@ -307,7 +307,7 @@ body {
     calc(var(--spotlight-size) * 0.75) calc(var(--spotlight-size) * 0.75) at
     calc(var(--x, 0) * 1px)
     calc(var(--y, 0) * 1px),
-    hsl(var(--hue, 0) 95% 55% / 0.55),
+    hsl(var(--hue, 48) 95% 55% / 0.55),
     transparent 100%
   );
   filter: brightness(1.6);
