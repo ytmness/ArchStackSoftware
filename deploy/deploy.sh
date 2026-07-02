@@ -27,6 +27,12 @@ fi
 echo "==> Instalando dependencias..."
 npm install
 
+echo "==> Deteniendo app antes del build..."
+pm2 stop archstack 2>/dev/null || true
+
+echo "==> Limpiando build anterior..."
+rm -rf .next
+
 echo "==> Build de producción..."
 npm run build
 
