@@ -41,7 +41,7 @@ function buildFeatures(dict: Dictionary): Feature[] {
   const icons = [
     <Layers
       key="layers"
-      className="h-10 w-10 text-red-300 drop-shadow-[0_0_14px_rgba(248,113,113,0.9)]"
+      className="h-10 w-10 text-yellow-300 drop-shadow-[0_0_14px_rgba(250,204,21,0.9)]"
     />,
     <Cpu
       key="cpu"
@@ -67,13 +67,13 @@ function buildFeatures(dict: Dictionary): Feature[] {
   const palettes = [
     {
       colors: [
-        "hsl(0, 95%, 22%)",
-        "hsl(0, 100%, 52%)",
-        "hsl(350, 90%, 14%)",
-        "hsl(0, 100%, 68%)",
+        "hsl(48, 95%, 22%)",
+        "hsl(48, 100%, 52%)",
+        "hsl(45, 90%, 14%)",
+        "hsl(48, 100%, 68%)",
       ],
-      glow: "rgba(248, 113, 113, 0.45)",
-      ring: "rgba(248, 113, 113, 0.35)",
+      glow: "rgba(250, 204, 21, 0.45)",
+      ring: "rgba(250, 204, 21, 0.35)",
     },
     {
       colors: [

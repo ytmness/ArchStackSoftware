@@ -55,7 +55,7 @@ export function ServicesHoverSlider({
 
             <HoverSliderImageWrap
               className={cn(
-                "mx-auto w-full max-w-lg overflow-hidden rounded-2xl border border-primary/15 bg-surface shadow-[0_24px_48px_-20px_rgba(0,0,0,0.55),0_0_0_1px_rgba(252,165,165,0.12),0_0_42px_-12px_rgba(220,38,38,0.2)] sm:rounded-3xl",
+                "mx-auto w-full max-w-lg overflow-hidden rounded-2xl border border-primary/15 bg-surface shadow-[0_24px_48px_-20px_rgba(0,0,0,0.55),0_0_0_1px_rgba(253,224,71,0.12),0_0_42px_-12px_rgba(234,179,8,0.2)] sm:rounded-3xl",
                 "aspect-[16/10]",
                 paired &&
                   "lg:mx-0 lg:aspect-[16/10] lg:w-[min(46%,40rem)] lg:max-w-none xl:w-[min(44%,42rem)]",

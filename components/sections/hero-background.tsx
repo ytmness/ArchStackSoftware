@@ -52,8 +52,8 @@ export function HeroBackground() {
         >
           <defs>
             <radialGradient id="heroGlow" cx="50%" cy="40%" r="50%">
-              <stop offset="0%" stopColor="rgba(248,113,113,0.12)" />
-              <stop offset="100%" stopColor="rgba(248,113,113,0)" />
+              <stop offset="0%" stopColor="rgba(250,204,21,0.12)" />
+              <stop offset="100%" stopColor="rgba(250,204,21,0)" />
             </radialGradient>
           </defs>
           <rect width="100%" height="100%" fill="url(#heroGlow)" />
@@ -70,7 +70,7 @@ export function HeroBackground() {
               cx={node.cx}
               cy={node.cy}
               r={node.r}
-              fill="rgba(248,113,113,0.5)"
+              fill="rgba(250,204,21,0.5)"
             />
           ))}
           {[
@@ -87,7 +87,7 @@ export function HeroBackground() {
               y1={from.split(" ")[1]}
               x2={to.split(" ")[0]}
               y2={to.split(" ")[1]}
-              stroke="rgba(248,113,113,0.15)"
+              stroke="rgba(250,204,21,0.15)"
               strokeWidth="1"
             />
           ))}

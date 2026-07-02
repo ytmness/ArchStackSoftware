@@ -95,8 +95,8 @@ export function MobileShowcase({ dict }: MobileShowcaseProps) {
           }`}
           style={{
             boxShadow: scanning
-              ? "0 0 18px rgba(248,113,113,0.65)"
-              : "0 0 8px rgba(248,113,113,0.25)",
+              ? "0 0 18px rgba(250,204,21,0.65)"
+              : "0 0 8px rgba(250,204,21,0.25)",
           }}
           aria-hidden
         />

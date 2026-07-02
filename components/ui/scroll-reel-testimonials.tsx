@@ -70,7 +70,7 @@ function Featured({ src, alt }: { src: string; alt?: string }) {
         className="pointer-events-none absolute inset-0 z-[3] blur-[6px] mix-blend-overlay"
         style={{
           background:
-            "linear-gradient(220.99deg, rgba(248,113,113,0) 32%, rgb(248,113,113) 41%, rgb(252,165,165) 47%, rgba(239,68,68,0.57) 54%, rgba(239,68,68,0) 65%)",
+            "linear-gradient(220.99deg, rgba(250,204,21,0) 32%, rgb(250,204,21) 41%, rgb(253,224,71) 47%, rgba(234,179,8,0.57) 54%, rgba(234,179,8,0) 65%)",
         }}
       />
     </div>

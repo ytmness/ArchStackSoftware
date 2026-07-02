@@ -8,9 +8,9 @@
   --line: #1a1c20;
   --text: #f5f7fa;
   --muted: #a1a8b3;
-  --accent: #f87171;
-  --accent-2: #dc2626;
-  --primary-rgb: 248, 113, 113;
+  --accent: #facc15;
+  --accent-2: #eab308;
+  --primary-rgb: 250, 204, 21;
 
   --background: var(--bg);
   --foreground: var(--text);
@@ -35,8 +35,8 @@
   --radius: 0.75rem;
 
   --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.25);
-  --shadow-glow: 0 0 0 1px rgba(248, 113, 113, 0.22),
-    0 12px 40px rgba(220, 38, 38, 0.14);
+  --shadow-glow: 0 0 0 1px rgba(250, 204, 21, 0.22),
+    0 12px 40px rgba(234, 179, 8, 0.14);
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
@@ -113,7 +113,7 @@ body {
 }
 
 ::selection {
-  background: rgba(248, 113, 113, 0.28);
+  background: rgba(250, 204, 21, 0.28);
   color: var(--text);
 }
 
@@ -159,7 +159,7 @@ body {
 .glow-border { box-shadow: var(--shadow-glow); }
 
 .text-gradient {
-  background: linear-gradient(135deg, #fca5a5, #dc2626);
+  background: linear-gradient(135deg, #fde047, #eab308);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -222,27 +222,27 @@ body {
 .card-shell-lg {
   box-shadow:
     0 32px 64px -20px rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(252, 165, 165, 0.14),
-    0 0 56px -16px rgba(220, 38, 38, 0.24);
+    0 0 0 1px rgba(253, 224, 71, 0.14),
+    0 0 56px -16px rgba(234, 179, 8, 0.24);
 }
 
 .card-shell-md {
   box-shadow:
     0 24px 48px -16px rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(252, 165, 165, 0.14),
-    0 0 42px -12px rgba(220, 38, 38, 0.24);
+    0 0 0 1px rgba(253, 224, 71, 0.14),
+    0 0 42px -12px rgba(234, 179, 8, 0.24);
 }
 
 .card-shell-ui {
   box-shadow:
     0 24px 48px -16px rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(252, 165, 165, 0.12),
-    0 0 40px -12px rgba(220, 38, 38, 0.22);
+    0 0 0 1px rgba(253, 224, 71, 0.12),
+    0 0 40px -12px rgba(234, 179, 8, 0.22);
 }
 
 .feature-shader-card {
-  --feature-glow: rgba(248, 113, 113, 0.4);
-  --feature-ring: rgba(248, 113, 113, 0.3);
+  --feature-glow: rgba(250, 204, 21, 0.4);
+  --feature-ring: rgba(250, 204, 21, 0.3);
   transition: box-shadow 0.45s ease, transform 0.45s ease;
 }
 
@@ -264,7 +264,7 @@ body {
 .glow-card {
   --radius: 16;
   --border: 2;
-  --backdrop: hsl(0 40% 20% / 0.18);
+  --backdrop: hsl(48 40% 20% / 0.18);
   --backup-border: var(--backdrop);
   --size: 220;
   --outer: 1;
@@ -377,8 +377,8 @@ body {
 }
 
 @keyframes loader-estroboscopico-cyan {
-  0%, 50%, 100% { fill: #fca5a5; }
-  25%, 75% { fill: #991b1b; }
+  0%, 50%, 100% { fill: #fde047; }
+  25%, 75% { fill: #854d0e; }
 }
 
 @media (prefers-reduced-motion: reduce) {

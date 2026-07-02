@@ -202,7 +202,7 @@ export function ProcessScannerSection({
             className="pointer-events-none absolute left-1/2 top-1/2 z-40 w-px -translate-x-1/2 -translate-y-1/2 bg-gradient-to-b from-transparent via-accent to-transparent"
             style={{
               height: laneHeight,
-              boxShadow: "0 0 28px rgba(248,113,113,0.7)",
+              boxShadow: "0 0 28px rgba(250,204,21,0.7)",
             }}
             aria-hidden
           />

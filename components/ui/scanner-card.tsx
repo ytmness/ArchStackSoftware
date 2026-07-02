@@ -104,12 +104,12 @@ export function ScannerCard({
         className="card-wrapper relative h-full w-full overflow-hidden rounded-2xl"
       >
         <div
-          className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-red-950/40 to-red-950/30"
+          className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-yellow-950/40 to-yellow-950/30"
           aria-hidden
         />
 
         <div
-          className="card-ascii absolute inset-0 z-[1] overflow-hidden rounded-2xl border border-red-500/25 bg-[#020408]"
+          className="card-ascii absolute inset-0 z-[1] overflow-hidden rounded-2xl border border-yellow-500/25 bg-[#020408]"
           style={{
             clipPath: "inset(0 calc(100% - var(--clip-left, 0%)) 0 0)",
           }}
@@ -118,13 +118,13 @@ export function ScannerCard({
             className="pointer-events-none absolute inset-0 z-[2] opacity-[0.07]"
             style={{
               backgroundImage:
-                "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(248,113,113,0.35) 2px, rgba(248,113,113,0.35) 3px)",
+                "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(250,204,21,0.35) 2px, rgba(250,204,21,0.35) 3px)",
             }}
             aria-hidden
           />
           <pre
             ref={preRef}
-            className="ascii-content absolute inset-0 m-0 h-full w-full overflow-hidden whitespace-pre p-0 font-mono text-red-300/85"
+            className="ascii-content absolute inset-0 m-0 h-full w-full overflow-hidden whitespace-pre p-0 font-mono text-yellow-300/85"
             style={{
               fontSize: `${metrics.fontSize}px`,
               lineHeight: `${metrics.lineHeight}px`,
@@ -152,7 +152,7 @@ export function ScannerCard({
             draggable={false}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-bg/80 via-bg/10 to-transparent" />
-          <p className="absolute bottom-4 left-4 rounded-full border border-red-400/35 bg-bg/75 px-3 py-1 text-xs text-red-200 backdrop-blur-sm">
+          <p className="absolute bottom-4 left-4 rounded-full border border-yellow-400/35 bg-bg/75 px-3 py-1 text-xs text-yellow-200 backdrop-blur-sm">
             {label}
           </p>
         </div>
