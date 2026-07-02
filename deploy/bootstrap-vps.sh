@@ -30,5 +30,5 @@ elif [ ! -f .env ]; then
   echo "AVISO: edita $APP_DIR/.env con tus credenciales de Supabase."
 fi
 
-chmod +x deploy/deploy.sh
+chmod +x deploy/deploy.sh deploy/prebuild.sh
 bash deploy/deploy.sh
